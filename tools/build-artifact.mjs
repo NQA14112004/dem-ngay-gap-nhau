@@ -39,6 +39,7 @@ const html = await readFile(NGUON, 'utf8');
 const head = ruotThe(html, 'head')
   .split('\n')
   .filter((dong) => !/^\s*<meta\b/i.test(dong))
+  .filter((dong) => !/^\s*<!--.*-->\s*$/.test(dong))
   .join('\n')
   .trim();
 
