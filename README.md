@@ -2,6 +2,8 @@
 
 Một trang web đếm ngược tới **28 tháng Chạp** — ngày anh về Việt Nam ăn Tết với em.
 
+**Trang đang chạy tại: https://nqa14112004.github.io/dem-ngay-gap-nhau/**
+
 Mỗi ngày trôi qua con số bớt đi 1, tới đúng ngày về thì chạm 0. Mỗi ngày một câu
 khác nhau, mỗi tuần một khung cảnh khác nhau, và mỗi buổi trong ngày một bầu trời
 khác nhau.
@@ -90,33 +92,21 @@ Nhạc **không tự phát** khi mở trang — trình duyệt chặn, và mở 
 mà tự nhiên có nhạc thì phiền. Người xem bấm nút loa thì mới phát, và lần sau mở
 lại trình duyệt sẽ nhớ lựa chọn đó.
 
-## 5. Đưa lên mạng để gửi link cho em
+## 5. Cập nhật trang đã chạy
 
-### Cách 1 — GitHub Pages (miễn phí, link cố định)
+Trang đã nằm trên GitHub Pages rồi. Sửa gì xong thì đẩy lên là nó tự cập nhật
+sau khoảng một phút:
 
 ```bash
-git init
-git add .
-git commit -m "feat: trang dem nguoc ngay ve"
-git branch -M main
-git remote add origin https://github.com/<ten-tai-khoan>/DemNgayGapNhau.git
-git push -u origin main
+git add -A
+git commit -m "sua gi do"
+git push
 ```
 
-Rồi vào repo trên GitHub: **Settings → Pages → Source: Deploy from a branch →
-Branch: `main` / `/ (root)` → Save**. Chờ khoảng một phút là có link dạng:
+Không cần bước build nào cả — Pages phục vụ thẳng file tĩnh.
 
-```
-https://<ten-tai-khoan>.github.io/DemNgayGapNhau/
-```
-
-### Cách 2 — Netlify (nhanh nhất, kéo thả)
-
-Vào [app.netlify.com/drop](https://app.netlify.com/drop) rồi kéo nguyên thư mục
-này thả vào. Xong ngay, có link luôn. Vào **Site settings → Change site name**
-để đổi link thành tên dễ nhớ.
-
-Vì đây là trang tĩnh thuần nên không cần bước build nào cả.
+Muốn đổi link thành tên dễ nhớ hơn thì đổi tên repo trong **Settings → General →
+Repository name**, link sẽ đổi theo.
 
 ## 6. Chạy kiểm thử
 
@@ -181,3 +171,5 @@ tests/                  Kiểm thử, chạy bằng node --test
   gặp năm sau, chứ không nhảy số ngay hôm sau.
 - **Máy bật chế độ giảm chuyển động** thì mọi hiệu ứng động tự tắt.
 - **Xoay ngang điện thoại** thì tranh nền tự dựng lại cho khớp tỉ lệ màn hình.
+- **Trang không lên Google.** Có `robots.txt` và thẻ `noindex` — ai có link vẫn
+  mở được bình thường, chỉ là không nằm trong kết quả tìm kiếm.
