@@ -1,0 +1,5 @@
+# Trang riêng của hai người, không cần nằm trong kết quả tìm kiếm.
+# Ai có link vẫn mở được bình thường - dòng dưới chỉ xin các máy tìm kiếm
+# đừng thu thập và đừng đưa trang này lên Google.
+User-agent: *
+Disallow: /
