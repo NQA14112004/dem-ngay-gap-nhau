@@ -10,7 +10,7 @@ export const config = {
   tenEm: 'BichHaneee',
 
   /** Tên bạn. Dùng để ký cuối bức thư ngày về. */
-  tenAnh: 'Anh',
+  tenAnh: 'QuangAnh',
 
   /** Dòng chữ nhỏ trên cùng màn hình. */
   loiMoDau: 'Đếm ngược tới ngày anh về',
