@@ -27,10 +27,16 @@ export const config = {
   ],
 
   /**
-   * Nhạc nền. Chép file .mp3 vào thư mục assets/audio/ rồi điền đúng tên file.
-   * Nếu chưa có nhạc thì cứ để nguyên - nút loa sẽ tự ẩn, trang vẫn chạy bình thường.
+   * Nhạc nền.
+   *
+   * Không cần làm gì cả: mặc định trang tự chơi một đoạn nhạc ngũ cung nhẹ,
+   * sinh thẳng trong trình duyệt, không lặp lại y hệt bao giờ.
+   *
+   * Muốn dùng bài của riêng hai đứa thì chép file .mp3 vào assets/audio/ rồi
+   * điền tên file vào đây, ví dụ: 'assets/audio/bai-cua-minh.mp3'
+   * Có file thì trang ưu tiên file, để trống thì dùng nhạc tự sinh.
    */
-  fileNhac: 'assets/audio/nhac-nen.mp3',
+  fileNhac: '',
 
   /**
    * Bình thường trang tự tính ngày 28 tháng Chạp sắp tới.

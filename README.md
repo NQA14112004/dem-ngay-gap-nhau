@@ -82,15 +82,30 @@ Riêng buổi thì lấy theo giờ MÁY của người đang xem, không phải
 cái này nói về ánh sáng ngoài cửa sổ ngay lúc đó. Con số đếm ngược thì ngược lại,
 luôn tính theo ngày ở Việt Nam để hai người thấy cùng một số.
 
-## 4. Thêm nhạc nền
+## 4. Nhạc nền
 
-Chép một file `.mp3` vào thư mục `assets/audio/`, rồi sửa dòng `fileNhac` trong
-`js/config.js` cho khớp tên file. Chưa có nhạc thì nút loa tự ẩn, trang vẫn chạy
-bình thường.
+Trang **đã có nhạc sẵn** — một đoạn ngũ cung nhẹ do trình duyệt tự chơi, không
+phải file tải về. Vì được sinh ra lúc chạy nên không đoạn nào lặp lại y hệt đoạn
+nào, và không tốn một byte tải nhạc nào cả.
+
+Thang âm dùng là **ngũ cung điệu Bắc** (Đô Rê Fa Sol La) — thang quen thuộc của
+nhạc cổ truyền miền Bắc. Có hai lớp: hợp âm nền kéo dài phía dưới, và mấy nốt
+gảy thưa ở trên, thi thoảng lại nghỉ một nhịp.
+
+Muốn thay bằng bài của riêng hai đứa thì chép file `.mp3` vào `assets/audio/`
+rồi điền tên file vào dòng `fileNhac` trong `js/config.js`:
+
+```js
+fileNhac: 'assets/audio/bai-cua-minh.mp3',
+```
+
+Có file thì trang ưu tiên file; file hỏng hoặc không thấy thì tự quay về nhạc
+tự sinh, không bao giờ để trang im bặt.
 
 Nhạc **không tự phát** khi mở trang — trình duyệt chặn, và mở ở chỗ đông người
-mà tự nhiên có nhạc thì phiền. Người xem bấm nút loa thì mới phát, và lần sau mở
-lại trình duyệt sẽ nhớ lựa chọn đó.
+mà tự nhiên có nhạc thì phiền. Bấm nút loa góc trên bên phải thì mới chạy, và
+lần sau mở lại trình duyệt sẽ nhớ lựa chọn đó. Chuyển sang tab khác thì nhạc
+tự dừng, quay lại thì chạy tiếp.
 
 ## 5. Cập nhật trang đã chạy
 
@@ -122,6 +137,7 @@ Bộ kiểm thử bao trùm những chỗ dễ sai nhất:
 - Máy ở 5 múi giờ khác nhau phải cho ra cùng một con số
 - Kho câu đủ dùng cả mùa chờ, không có câu nào trùng
 - 24 giờ trong ngày đều rơi đúng buổi, ranh giới không lệch
+- Giai điệu chạy 5000 nốt vẫn không lạc khỏi quãng, chủ yếu đi liền bậc
 - Bố cục giữ nguyên suốt 7 ngày của một tuần, sang tuần mới mới đổi
 - Tranh nền dựng đúng cấu trúc ở mọi mùa × buổi × tuần, không bị cắt trên màn hình dọc
 
@@ -147,6 +163,7 @@ js/
   format.js             Định dạng ngày tháng kiểu Việt
   messages.js           162 câu, chia 4 giai đoạn
   message-picker.js     Chọn câu cố định theo ngày
+  music.js              Nhạc nền ngũ cung tự sinh bằng Web Audio
   scene.js              Ghép mùa + tuần + buổi thành một cảnh
   scene-layouts.js      20 bố cục, mỗi mùa 5 cái, đổi theo tuần
   scene-art.js          Các mảnh hình SVG

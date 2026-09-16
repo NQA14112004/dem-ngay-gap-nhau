@@ -1,16 +1,24 @@
 /**
  * Nhạc nền bật/tắt bằng tay.
  *
+ * Có hai nguồn nhạc, chọn tự động:
+ *   1. File .mp3 trong assets/audio/ nếu bạn có bỏ vào - ưu tiên cái này
+ *   2. Không có file thì dùng nhạc tự sinh trong js/music.js
+ *
  * Cố ý KHÔNG tự phát khi mở trang: trình duyệt chặn, và mở trang ở chỗ đông
- * người mà tự nhiên có nhạc thì phiền. Trạng thái bật/tắt được nhớ lại cho lần
- * sau. Nếu chưa bỏ file mp3 vào thì nút tự ẩn, trang vẫn chạy bình thường.
+ * người mà tự nhiên có nhạc thì phiền. Trạng thái bật/tắt được nhớ cho lần sau.
  */
+
+import { createMusic } from './music.js';
 
 /** Khoá lưu trạng thái trong localStorage. */
 const STORAGE_KEY = 'dem-ngay-gap-nhau:nhac';
 
-/** Âm lượng mặc định, để nhỏ cho dễ chịu. */
-const DEFAULT_VOLUME = 0.35;
+/** Âm lượng của file mp3, để nhỏ cho dễ chịu. */
+const FILE_VOLUME = 0.35;
+
+/** Chờ file nhạc lâu nhất ngần này rồi thôi, quay sang nhạc tự sinh. */
+const FILE_TIMEOUT_MS = 3000;
 
 /**
  * Đọc trạng thái đã lưu. Trình duyệt chặn localStorage thì coi như tắt.
@@ -39,66 +47,128 @@ function saveState(isOn) {
 }
 
 /**
+ * Bọc thẻ audio thành nguồn nhạc có cùng giao diện với bộ nhạc tự sinh.
+ *
+ * @param {HTMLAudioElement} audio Thẻ audio
+ * @returns {{ start: () => Promise<void>, stop: () => void, isPlaying: () => boolean }}
+ */
+function createFileSource(audio) {
+  audio.volume = FILE_VOLUME;
+
+  return {
+    start: () => audio.play(),
+    stop: () => audio.pause(),
+    isPlaying: () => !audio.paused,
+  };
+}
+
+/**
+ * Quyết định dùng nguồn nhạc nào.
+ *
+ * Thử nạp file trước; file hỏng, không có, hoặc nạp quá lâu thì quay sang nhạc
+ * tự sinh. Quyết xong mới hiện nút, để nút không đổi nguồn giữa chừng.
+ *
+ * @param {HTMLAudioElement} audio Thẻ audio
+ * @param {string} src Đường dẫn file nhạc
+ * @returns {Promise<{ nguon: object, tuFile: boolean }>}
+ */
+function resolveSource(audio, src) {
+  if (!src) {
+    return Promise.resolve({ nguon: createMusic(), tuFile: false });
+  }
+
+  return new Promise((resolve) => {
+    let xong = false;
+
+    const chot = (tuFile) => {
+      if (xong) {
+        return;
+      }
+      xong = true;
+      window.clearTimeout(hetGio);
+      resolve(tuFile ? { nguon: createFileSource(audio), tuFile: true } : { nguon: createMusic(), tuFile: false });
+    };
+
+    const hetGio = window.setTimeout(() => chot(false), FILE_TIMEOUT_MS);
+
+    audio.addEventListener('canplay', () => chot(true), { once: true });
+    audio.addEventListener('error', () => chot(false), { once: true });
+
+    audio.src = src;
+    audio.load();
+  });
+}
+
+/**
  * Gắn nhạc nền vào trang.
  *
  * @param {object} params Tham số
  * @param {HTMLAudioElement} params.audio Thẻ audio
  * @param {HTMLButtonElement} params.button Nút bật/tắt
- * @param {string} params.src Đường dẫn file nhạc
+ * @param {string} params.src Đường dẫn file nhạc, để trống cũng được
  */
-export function setupAudio({ audio, button, src }) {
-  if (!src) {
-    return;
+export async function setupAudio({ audio, button, src }) {
+  const { nguon, tuFile } = await resolveSource(audio, src);
+  const nhan = button.querySelector('.audio-toggle__label');
+
+  button.dataset.nguon = tuFile ? 'file' : 'tu-sinh';
+  button.hidden = false;
+
+  /**
+   * Cập nhật hình thức của nút theo trạng thái đang phát.
+   *
+   * @param {boolean} isOn Đang bật hay không
+   */
+  function setPressed(isOn) {
+    button.setAttribute('aria-pressed', String(isOn));
+    button.setAttribute('aria-label', isOn ? 'Tắt nhạc nền' : 'Bật nhạc nền');
+
+    if (nhan) {
+      nhan.textContent = isOn ? 'Đang bật' : 'Nhạc';
+    }
   }
 
-  audio.src = src;
-  audio.volume = DEFAULT_VOLUME;
+  setPressed(false);
 
-  let coNhac = false;
+  // Lần trước có bật thì thử bật lại. Trình duyệt thường chặn vì chưa có thao
+  // tác nào, lúc đó cứ để nút ở trạng thái tắt, người xem bấm một cái là chạy.
+  if (readSavedState()) {
+    nguon.start().then(
+      () => setPressed(true),
+      () => setPressed(false),
+    );
+  }
 
-  // Chỉ hiện nút khi trình duyệt xác nhận đọc được file nhạc.
-  audio.addEventListener('canplay', () => {
-    coNhac = true;
-    button.hidden = false;
+  button.addEventListener('click', () => {
+    if (nguon.isPlaying()) {
+      nguon.stop();
+      setPressed(false);
+      saveState(false);
+      return;
+    }
 
-    if (readSavedState()) {
-      // Lần trước em bật nhạc: thử phát lại, nếu trình duyệt chặn thì để nguyên trạng thái tắt.
-      audio.play().then(
+    nguon.start().then(
+      () => {
+        setPressed(true);
+        saveState(true);
+      },
+      () => setPressed(false),
+    );
+  });
+
+  // Chuyển sang tab khác thì tắt tiếng cho đỡ phiền, quay lại thì bật tiếp.
+  let dungVIAn = false;
+
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden && nguon.isPlaying()) {
+      dungVIAn = true;
+      nguon.stop();
+    } else if (!document.hidden && dungVIAn) {
+      dungVIAn = false;
+      nguon.start().then(
         () => setPressed(true),
         () => setPressed(false),
       );
     }
   });
-
-  audio.addEventListener('error', () => {
-    button.hidden = true;
-  });
-
-  function setPressed(isOn) {
-    button.setAttribute('aria-pressed', String(isOn));
-    button.querySelector('.audio-toggle__label').textContent = isOn ? 'Đang bật' : 'Nhạc';
-  }
-
-  button.addEventListener('click', () => {
-    if (!coNhac) {
-      return;
-    }
-
-    if (audio.paused) {
-      audio.play().then(
-        () => {
-          setPressed(true);
-          saveState(true);
-        },
-        () => setPressed(false),
-      );
-    } else {
-      audio.pause();
-      setPressed(false);
-      saveState(false);
-    }
-  });
-
-  // preload="none" nên phải gọi load() thì sự kiện canplay mới bắn.
-  audio.load();
 }

@@ -210,7 +210,8 @@ test('mọi file css và js mà index.html gọi đều tồn tại', async () =
 test('mọi lệnh import giữa các module đều trỏ tới file có thật', async () => {
   const files = [
     'audio.js', 'config.js', 'countdown.js', 'daypart.js', 'finale.js', 'format.js',
-    'lunar.js', 'main.js', 'message-picker.js', 'messages.js', 'particles.js', 'rng.js',
+    'lunar.js', 'main.js', 'message-picker.js', 'messages.js', 'music.js', 'particles.js',
+    'rng.js',
     'scene-art.js', 'scene-layouts.js', 'scene.js', 'target-date.js',
   ];
 

@@ -140,8 +140,11 @@ window.addEventListener('resize', () => {
   resizeTimer = window.setTimeout(draw, 250);
 });
 
+// Nhạc nền chạy độc lập với phần đếm ngược: hỏng nhạc thì trang vẫn chạy bình thường.
 setupAudio({
   audio: el.audio,
   button: el.audioToggle,
   src: config.fileNhac,
+}).catch(() => {
+  el.audioToggle.hidden = true;
 });
