@@ -1,0 +1,89 @@
+/* Reset gọn + biến thiết kế dùng chung cho cả trang. */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+:root {
+  /* Các biến màu dưới đây bị scenes.css ghi đè theo từng mùa. */
+  --sky-top: #2b1b4d;
+  --sky-mid: #4a2c5e;
+  --sky-bottom: #8a5a6d;
+  --glow: rgba(255, 210, 160, 0.45);
+  --ink: #fdf6ee;
+  --ink-soft: rgba(253, 246, 238, 0.72);
+  --ink-faint: rgba(253, 246, 238, 0.45);
+  --accent: #ffd7a8;
+  --particle: rgba(255, 255, 255, 0.85);
+
+  /* Màu riêng cho con số đếm ngược. Tách khỏi --accent vì --accent còn dùng để
+     tô mặt trời, mặt nước, lồng đèn - những thứ luôn phải sáng. Buổi sáng và
+     trưa nền sáng nên con số phải đậm lại thì mới đọc được. */
+  --so: #ffd7a8;
+
+  /* Lớp phủ sau khối chữ. Nền tối thì phủ tối, nền sáng thì phủ sáng. */
+  --scrim: rgba(0, 0, 0, 0.46);
+  --vignette: rgba(0, 0, 0, 0.32);
+  --vignette-strong: rgba(0, 0, 0, 0.5);
+
+  --font-body: 'Be Vietnam Pro', 'Segoe UI', system-ui, -apple-system, 'Helvetica Neue', sans-serif;
+  --font-display: 'Playfair Display', 'Times New Roman', Georgia, serif;
+
+  --space-xs: 0.4rem;
+  --space-sm: 0.75rem;
+  --space-md: 1.25rem;
+  --space-lg: 2rem;
+  --space-xl: 3rem;
+
+  --shadow-text: 0 2px 24px rgba(0, 0, 0, 0.45);
+  --ease-soft: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+html {
+  height: 100%;
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  min-height: 100%;
+  min-height: 100dvh;
+  font-family: var(--font-body);
+  font-weight: 300;
+  color: var(--ink);
+  background: var(--sky-bottom);
+  overflow: hidden;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: background 1.2s var(--ease-soft);
+}
+
+button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+canvas {
+  display: block;
+}
+
+[hidden] {
+  display: none !important;
+}
+
+/* Người dùng bật "giảm chuyển động" thì tắt hết hiệu ứng động. */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}

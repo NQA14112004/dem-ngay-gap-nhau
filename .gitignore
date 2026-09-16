@@ -1,0 +1,15 @@
+# Thư mục dựng bản deploy, không cần theo dõi
+dist/
+
+# Rác của hệ điều hành và trình soạn thảo
+Thumbs.db
+desktop.ini
+.DS_Store
+*.swp
+
+# Nhạc nền là file cá nhân, không đẩy lên repo công khai.
+# Muốn đẩy lên thì xoá hai dòng dưới đây.
+assets/audio/*.mp3
+assets/audio/*.m4a
+
+node_modules/

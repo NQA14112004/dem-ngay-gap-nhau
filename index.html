@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Đếm ngược ngày mình gặp nhau</title>
+  <meta name="description" content="Còn bao nhiêu ngày nữa là tới 28 tháng Chạp - ngày anh về với em." />
+  <meta name="theme-color" content="#1b1033" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,300;0,400;0,500;1,300;1,400&family=Playfair+Display:ital,wght@0,500;0,700;1,400;1,500&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/layout.css" />
+  <link rel="stylesheet" href="css/scenes.css" />
+  <link rel="stylesheet" href="css/particles.css" />
+  <link rel="stylesheet" href="css/finale.css" />
+</head>
+<body data-scene="thu" data-buoi="toi">
+  <!-- Nền: trời, quầng sáng, tranh SVG theo mùa, hạt rơi -->
+  <div class="scene" aria-hidden="true">
+    <div class="scene__sky"></div>
+    <div class="scene__glow"></div>
+    <div class="scene__art" id="scene-art"></div>
+    <canvas class="scene__particles" id="particles"></canvas>
+    <div class="scene__vignette"></div>
+  </div>
+
+  <main class="page">
+    <p class="page__eyebrow" id="eyebrow">Anh đang đếm từng ngày để về với em</p>
+
+    <section class="counter" aria-live="polite">
+      <p class="counter__label">Còn</p>
+      <p class="counter__number" id="days">&nbsp;</p>
+      <p class="counter__unit" id="unit">ngày nữa</p>
+    </section>
+
+    <blockquote class="message">
+      <p class="message__text" id="message">&nbsp;</p>
+    </blockquote>
+
+    <section class="dates">
+      <p class="dates__line" id="today-line">&nbsp;</p>
+      <p class="dates__line dates__line--target" id="target-line">&nbsp;</p>
+    </section>
+
+    <p class="tick" id="tick">&nbsp;</p>
+  </main>
+
+  <button class="audio-toggle" id="audio-toggle" type="button" hidden aria-pressed="false">
+    <span class="audio-toggle__icon" aria-hidden="true">♪</span>
+    <span class="audio-toggle__label">Nhạc</span>
+  </button>
+
+  <audio id="bgm" loop preload="none"></audio>
+
+  <!-- Màn hình ngày về, chỉ hiện khi đếm về 0 -->
+  <div class="finale" id="finale" hidden>
+    <canvas class="finale__fireworks" id="fireworks" aria-hidden="true"></canvas>
+    <div class="finale__content">
+      <p class="finale__eyebrow">28 tháng Chạp</p>
+      <h1 class="finale__title">Anh về rồi</h1>
+      <div class="finale__letter" id="finale-letter"></div>
+      <p class="finale__sign" id="finale-sign"></p>
+    </div>
+  </div>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>

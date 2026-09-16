@@ -1,0 +1,11 @@
+{
+  "name": "dem-ngay-gap-nhau",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Web dem nguoc toi ngay 28 thang Chap - ngay ve gap nhau",
+  "type": "module",
+  "scripts": {
+    "test": "node --test",
+    "dev": "node tools/serve.mjs"
+  }
+}
