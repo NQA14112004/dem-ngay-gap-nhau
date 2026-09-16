@@ -401,17 +401,23 @@ export function streetLamps(W) {
  * @returns {string} Chuỗi SVG
  */
 export function fogBank(W) {
-  return [
-    { y: 448, ry: 26, o: 0.12 },
-    { y: 486, ry: 32, o: 0.16 },
-    { y: 528, ry: 38, o: 0.2 },
+  // Class art-water phải nằm ở lớp bọc ngoài, không được gắn lên từng dải.
+  // Animation của nó đặt thẳng thuộc tính opacity, mà animation thì ghi đè cả
+  // opacity riêng của phần tử - gắn vào từng dải là sương trắng loá lên 0.85,
+  // che mất chữ phía dưới.
+  const dai = [
+    { y: 448, ry: 26, o: 0.14 },
+    { y: 486, ry: 32, o: 0.18 },
+    { y: 528, ry: 38, o: 0.22 },
   ]
     .map(
       ({ y, ry, o }) =>
-        `<ellipse class="art-water" cx="${(W / 2).toFixed(1)}" cy="${y}" rx="${(W * 0.78).toFixed(1)}"
+        `<ellipse cx="${(W / 2).toFixed(1)}" cy="${y}" rx="${(W * 0.78).toFixed(1)}"
           ry="${ry}" fill="#fff" opacity="${o}" />`,
     )
     .join('');
+
+  return `<g class="art-water">${dai}</g>`;
 }
 
 /**

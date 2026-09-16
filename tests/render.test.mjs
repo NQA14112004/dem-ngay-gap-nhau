@@ -281,3 +281,24 @@ test('phần tử có animation xoay không được mang transform riêng của
     assert.ok(!thuocTinh.includes('transform='), `${ten} vừa có animation vừa có transform riêng`);
   }
 });
+
+test('animation không được gắn thẳng lên phần tử có độ mờ riêng', () => {
+  // CSS animation ghi đè cả thuộc tính opacity của phần tử. Gắn class có
+  // animation opacity lên đúng phần tử đang cần độ mờ riêng thì độ mờ đó bị
+  // xoá - đúng lỗi đã làm dải sương loá trắng che mất chữ.
+  const khung = computeViewBox(390, 844);
+
+  for (const [mua, danhSach] of Object.entries(LAYOUTS)) {
+    for (const boCuc of danhSach) {
+      const hinh = boCuc.ve(khung.width, () => 0.5);
+      const viPham = [...hinh.matchAll(/<(\w+)([^>]*class="[^"]*art-water[^"]*"[^>]*)>/g)]
+        .filter(([, the, thuocTinh]) => the !== 'g' && thuocTinh.includes('opacity='));
+
+      assert.equal(
+        viPham.length,
+        0,
+        `${mua}/${boCuc.ten}: có phần tử vừa mang art-water vừa có opacity riêng`,
+      );
+    }
+  }
+});
