@@ -218,7 +218,8 @@ test('mọi lệnh import giữa các module đều trỏ tới file có thật'
   for (const file of files) {
     const url = new URL(`../js/${file}`, import.meta.url);
     const source = await readFile(url, 'utf8');
-    const imports = [...source.matchAll(/from '(\.\/[^']+)'/g)].map((m) => m[1]);
+    // Bỏ dấu phiên bản ?v=... do tools/stamp-version.mjs gắn vào, chỉ giữ tên file
+    const imports = [...source.matchAll(/from '(\.\/[^'?]+)(?:\?[^']*)?'/g)].map((m) => m[1]);
 
     for (const spec of imports) {
       await assert.doesNotReject(

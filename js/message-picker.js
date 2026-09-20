@@ -6,7 +6,7 @@
  * đổi câu mới.
  */
 
-import { MESSAGES } from './messages.js';
+import { MESSAGES } from './messages.js?v=009849fb';
 
 /** Ngưỡng chia nhóm theo số ngày còn lại. */
 export const THRESHOLDS = { giua: 90, gan: 30, cuoi: 7 };

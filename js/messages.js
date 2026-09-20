@@ -13,8 +13,7 @@
  * Cứ sửa thoải mái - viết bằng lời của mình vẫn hơn.
  */
 
-/** Còn hơn 90 ngày. Quãng này là mùa thu, chuyện còn xa nên nói chuyện thường ngày. */
-/** Còn xa, mới đi hoặc còn lâu mới về. Nỗi nhớ miên man, nhẹ nhàng. */
+/** Còn hơn 90 ngày. Quãng cuối thu sang đầu đông: nhớ nhung miên man, chuyện thường ngày. */
 const XA = [
   'Hà Nội đón gió mùa rồi đúng không? Ra đường nhớ quàng thêm khăn, mặc ấm vào, đừng chủ quan rồi ốm đấy nhé.',
   'Chỗ anh cũng đang mùa thu. Nhưng thu mà không có mùi hoa sữa, không có em đi cạnh, thì với anh chỉ là một mùa thay lá thôi.',
@@ -51,7 +50,21 @@ const XA = [
   'Mệt thì cứ cằn nhằn với anh. Bận mấy thì bận, anh vẫn ở đây nghe em nói.',
   'Còn xa thật đấy, nhưng nghĩ tích cực thì ngày nào qua đi cũng là nhích lại gần em thêm một chút.',
   'Hôm nay nắng đẹp. Nhưng cảnh đẹp mà không có em đứng cạnh để chỉ cho xem, thì cũng chỉ là cảnh bình thường thôi.',
-  'Anh hứa là anh sẽ về, đúng ngày. Đợi anh nhé.'
+  'Anh hứa là anh sẽ về, đúng ngày. Đợi anh nhé.',
+  'Mùa cốm về rồi đấy nhỉ. Em mua một gói ăn hộ anh với, rồi kể xem năm nay có ngon bằng năm ngoái không.',
+  'Bên này cũng có sấu, mà là sấu đóng hộp, chua lè. Thèm bát canh sườn nấu sấu ở nhà ghê.',
+  'Tháng mười một là mùa cúc hoạ mi. Năm nay anh không mua tặng em được, em tự mua một bó cắm cho đẹp nhà nhé, coi như anh gửi.',
+  'Lá bên này cũng đang đỏ. Đỏ thì đỏ thật, mà vẫn không bằng hàng cây già trên con phố mình hay đi.',
+  'Anh vừa lôi cái áo len ra khỏi tủ. Ngửi thấy mùi long não, tự nhiên nhớ cái tủ quần áo ở nhà.',
+  'Đợt giao mùa dễ ốm lắm. Uống đủ nước, đừng thức khuya xem phim nữa, anh biết thừa đấy.',
+  'Ảnh màn hình khoá điện thoại anh vẫn để tấm hôm hai đứa đi Hồ Tây. Mỗi lần mở máy lại thấy em cười.',
+  'Sáng nay anh dậy sớm, pha cà phê, ngồi nhìn ra ngoài cửa sổ. Nghĩ giờ này ở nhà em đang chen chúc ngoài đường đi làm.',
+  'Có hôm anh chẳng buồn nói chuyện với ai. Đến tối gọi cho em, nghe giọng một cái là thấy người nhẹ hẳn đi.',
+  'Bên này cái gì cũng tiện, cũng đầy đủ. Chỉ thiếu mỗi hàng xôi sáng đầu ngõ và một người hay càu nhàu anh ăn chậm.',
+  'Anh vừa ngồi tính từ hôm đi đến giờ mình đã xa nhau bao nhiêu ngày. Tính xong thấy phục hai đứa mình thật.',
+  'Trời trở gió, anh lại nhớ cái dáng em co ro đằng sau xe, hai tay vòng qua ôm chặt lấy bụng anh.',
+  'Hà Nội chắc đang vào mùa cưới. Em đi ăn cỗ thì cứ ăn cho thoải mái, đừng ngại, về anh lại nuôi cho béo.',
+  'Anh không kể khổ đâu, nhưng có mấy hôm mệt thật. Rồi lại nghĩ mình chịu khó bây giờ để sau này em đỡ vất, thế là lại làm tiếp.',
 ];
 
 /** Còn 31 tới 90 ngày. Quãng này là mùa đông, bắt đầu đếm thật. */
@@ -94,7 +107,32 @@ const GIUA = [
   'Hôm nay trời đẹp. Chỉ tiếc là thiếu mỗi em.',
   'Em là phần thưởng cuối năm xứng đáng nhất của anh.',
   'Anh không cần cái Tết hoành tráng, mâm cao cỗ đầy. Anh chỉ cần một cái Tết có em ở bên là đủ.',
-  'Rét thì nhớ tự mặc thêm áo vào. Đừng có ỷ lại đợi anh về mới chịu mặc ấm nhé.'
+  'Rét thì nhớ tự mặc thêm áo vào. Đừng có ỷ lại đợi anh về mới chịu mặc ấm nhé.',
+  'Hà Nội rét đậm chưa? Nhớ cắm túi sưởi trước khi đi ngủ, đừng để chân lạnh ngắt rồi lại trằn trọc cả đêm.',
+  'Bên này người ta giăng đèn Noel khắp nơi. Đẹp thì đẹp, mà anh chỉ nghĩ đến mấy hàng ngô nướng khói nghi ngút ở nhà.',
+  'Giáng sinh này em đi chơi với hội bạn cho vui nhé. Đừng ngồi nhà một mình, anh không yên tâm đâu.',
+  'Sắp hết một năm rồi đấy. Năm nay mình xa nhau nhiều quá, năm sau anh đền.',
+  'Giao thừa dương lịch em định làm gì? Gọi cho anh một cuộc nhé, dù bên anh lúc đấy chắc đang giữa trưa.',
+  'Anh vừa ngồi tổng kết một năm. Mục được nhiều nhất vẫn là: còn em.',
+  'Thưởng cuối năm vừa về. Anh để riêng ra một phần, dành về tiêu với em.',
+  'Mùa này em thích ăn ốc nóng lắm đúng không. Ráng đợi anh về, anh chở đi, ăn bao nhiêu bát cũng được.',
+  'Sáng nay sương muối. Lạnh kiểu này ở nhà chắc buốt hết cả tay, nhớ đeo găng vào.',
+  'Anh mua cho em một cái khăn. Màu em hay chê là già, nhưng anh thấy quàng vào chắc là xinh.',
+  'Gọi video thấy em quấn chăn kín mít, chừa mỗi cái mặt. Buồn cười mà thương.',
+  'Anh treo cái lịch năm mới lên tường rồi. Khoanh sẵn một vòng đỏ vào ngày bốn tháng hai.',
+  'Còn hai tháng nữa. Viết ra thì thấy ngắn ghê, mà sống qua thì chắc vẫn dài.',
+  'Tất niên cơ quan bên này anh có đi, ngồi một lúc rồi về sớm. Đông người thế mà vẫn thấy trống.',
+  'Anh cứ nghĩ mãi ngày đầu tiên về mình sẽ làm gì. Nghĩ mãi vẫn thấy chỉ cần ngồi cạnh nhau là đủ.',
+  'Cuối năm nhớ đi khám sức khoẻ một cái đi. Đừng lười, anh hỏi lại đấy nhé.',
+  'Dạo này anh hay bật mấy bài cũ hai đứa từng nghe chung. Nghe xong lại thấy nhớ hơn, mà vẫn cứ nghe.',
+  'Mùa đông bên này dài và im lặng lắm. Anh đếm ngày cho nó trôi nhanh.',
+  'Đừng để sát Tết mới đi cắt tóc nhé, đông lắm. Mà cắt kiểu gì thì anh cũng thấy xinh thôi.',
+  'Anh vừa đổi lại chỗ ngồi trên máy bay, chọn cạnh cửa sổ. Để lúc hạ cánh còn nhìn thấy Hà Nội sớm hơn một chút.',
+  'Có người hỏi anh Tết có về không. Anh trả lời nhanh đến mức chính anh cũng thấy bất ngờ.',
+  'Anh nhớ mùi bếp những hôm trời rét. Nhớ cả cái kiểu em hay giành đứng cạnh bếp cho ấm.',
+  'Còn hơn một tháng nữa thôi. Từ giờ anh không nói hai chữ còn lâu nữa đâu.',
+  'Ngủ sớm đi. Mai em còn dậy đi làm, còn anh thì còn phải đếm tiếp.',
+  'Đêm qua Hà Nội mưa phùn đúng không. Anh xem dự báo thời tiết ở nhà còn chăm hơn xem của chỗ anh đang ở.',
 ];
 
 /** Còn 8 tới 30 ngày. Quãng này là giáp Tết, mọi thứ bắt đầu cụ thể. */
@@ -120,7 +158,13 @@ const GAN = [
   'Anh đứng trước gương tập sẵn câu chào cho tử tế. Chứ sợ lúc gặp em mừng quá lại quên sạch.',
   'Cố lên, không lâu nữa đâu em. Ráng xíu xiu nữa thôi.',
   'Lần này là anh đi... nhưng là đi về phía em.',
-  'Sắp kết thúc cái cảnh yêu nhau qua màn hình điện thoại rồi.'
+  'Sắp kết thúc cái cảnh yêu nhau qua màn hình điện thoại rồi.',
+  'Tháng Chạp rồi. Nghe hai chữ đấy thôi là đã thấy mùi Tết ở đâu đây.',
+  'Nhà mình rửa lá dong chưa? Chừa phần anh mấy cái, anh về rửa, rửa xấu thì rửa lại.',
+  'Chợ đông nghịt đúng không. Em đi sắm Tết cẩn thận, giữ kỹ túi, đừng mải chọn đồ.',
+  'Đêm qua anh mơ thấy mình về đến đầu ngõ, thấy nhà em đang bày mâm ngũ quả. Tỉnh dậy tiếc ơi là tiếc.',
+  'Sắp đến ông Công ông Táo rồi. Năm nay em thả cá hộ anh một con nhé, khấn thêm cho anh một câu về nhà bình an.',
+  'Vé cầm chắc trong tay rồi. Giờ chỉ còn mỗi việc đếm nốt mấy hôm nữa thôi.',
 ];
 
 /** Còn 1 tới 7 ngày. Đi theo thứ tự, câu cuối rơi đúng hôm sát ngày về. */

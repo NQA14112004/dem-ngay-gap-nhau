@@ -123,16 +123,23 @@ Không có file nào hợp lệ thì trang tự quay về **nhạc ngũ cung t�
 
 ## 5. Cập nhật trang đã chạy
 
-Trang đã nằm trên GitHub Pages rồi. Sửa gì xong thì đẩy lên là nó tự cập nhật
-sau khoảng một phút:
+Trang đã nằm trên GitHub Pages. Sửa xong thì chạy đúng ba lệnh này:
 
 ```bash
-git add -A
-git commit -m "sua gi do"
-git push
+npm run stamp
+npm test
+git add -A && git commit -m "sua gi do" && git push
 ```
 
-Không cần bước build nào cả — Pages phục vụ thẳng file tĩnh.
+Khoảng một phút sau là trang cập nhật.
+
+**Đừng bỏ bước `npm run stamp`.** GitHub Pages trả về `Cache-Control: max-age=600`,
+nghĩa là trình duyệt người xem còn giữ bản cũ trong máy tối đa 10 phút sau khi
+bạn đẩy bản mới. Lệnh `stamp` gắn thêm `?v=<mã>` vào mọi đường dẫn css và js;
+mã đổi thì địa chỉ đổi, trình duyệt buộc phải tải bản mới ngay.
+
+Mã phiên bản tính từ chính nội dung các file, nên nội dung không đổi thì mã
+không đổi — chạy lại bao nhiêu lần cũng ra cùng kết quả, không tạo thay đổi rác.
 
 Muốn đổi link thành tên dễ nhớ hơn thì đổi tên repo trong **Settings → General →
 Repository name**, link sẽ đổi theo.
@@ -149,7 +156,7 @@ Bộ kiểm thử bao trùm những chỗ dễ sai nhất:
 - Đổi dương sang âm rồi đổi ngược lại, 3000 ngày liên tiếp
 - Số ngày còn lại giảm đúng 1 mỗi ngày, không nhảy cóc qua mốc đổi tháng, đổi năm
 - Máy ở 5 múi giờ khác nhau phải cho ra cùng một con số
-- Kho câu đủ dùng cả mùa chờ, không có câu nào trùng
+- Đi hết chặng đếm ngược, mô phỏng từng ngày một, không ngày nào gặp lại câu cũ
 - 24 giờ trong ngày đều rơi đúng buổi, ranh giới không lệch
 - Giai điệu chạy 5000 nốt vẫn không lạc khỏi quãng, chủ yếu đi liền bậc
 - Bố cục giữ nguyên suốt 7 ngày của một tuần, sang tuần mới mới đổi
@@ -169,13 +176,14 @@ css/
   finale.css            Màn hình ngày về
 tools/
   serve.mjs             Máy chủ tĩnh nhỏ dùng lúc xem thử
+  stamp-version.mjs     Gắn dấu phiên bản để cập nhật có hiệu lực ngay
 js/
   config.js             ⚠ File duy nhất bạn cần sửa
   lunar.js              Đổi âm lịch ↔ dương lịch (thuật toán Hồ Ngọc Đức)
   target-date.js        Tìm mốc 28 tháng Chạp, đếm ngày theo giờ Việt Nam
   daypart.js            Xác định buổi trong ngày theo giờ máy người xem
   format.js             Định dạng ngày tháng kiểu Việt
-  messages.js           162 câu, chia 4 giai đoạn
+  messages.js           152 câu, chia 4 giai đoạn
   message-picker.js     Chọn câu cố định theo ngày
   music.js              Nhạc nền ngũ cung tự sinh bằng Web Audio
   scene.js              Ghép mùa + tuần + buổi thành một cảnh

@@ -6,15 +6,15 @@
  * chỉnh đồng hồ máy.
  */
 
-import { config } from './config.js';
-import { getDaypart, parseDaypart } from './daypart.js';
-import { renderCountdown, startTicking } from './countdown.js';
-import { showFinale } from './finale.js';
-import { jdFromDate } from './lunar.js';
-import { startParticles } from './particles.js';
-import { applyScene, computeViewBox, pickScene } from './scene.js';
-import { setupAudio } from './audio.js';
-import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js';
+import { config } from './config.js?v=009849fb';
+import { getDaypart, parseDaypart } from './daypart.js?v=009849fb';
+import { renderCountdown, startTicking } from './countdown.js?v=009849fb';
+import { showFinale } from './finale.js?v=009849fb';
+import { jdFromDate } from './lunar.js?v=009849fb';
+import { startParticles } from './particles.js?v=009849fb';
+import { applyScene, computeViewBox, pickScene } from './scene.js?v=009849fb';
+import { setupAudio } from './audio.js?v=009849fb';
+import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=009849fb';
 
 /** Tra sẵn các phần tử DOM dùng nhiều lần. */
 const el = {

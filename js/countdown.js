@@ -5,10 +5,10 @@
  * các module riêng, do main.js điều phối.
  */
 
-import { formatDuration, formatLunarDate, formatSolarDate, formatWeekday } from './format.js';
-import { jdFromDate } from './lunar.js';
-import { pickMessage } from './message-picker.js';
-import { msUntilVietnamMidnight } from './target-date.js';
+import { formatDuration, formatLunarDate, formatSolarDate, formatWeekday } from './format.js?v=009849fb';
+import { jdFromDate } from './lunar.js?v=009849fb';
+import { pickMessage } from './message-picker.js?v=009849fb';
+import { msUntilVietnamMidnight } from './target-date.js?v=009849fb';
 
 /** Nhịp cập nhật đồng hồ phụ. */
 const TICK_INTERVAL_MS = 1000;

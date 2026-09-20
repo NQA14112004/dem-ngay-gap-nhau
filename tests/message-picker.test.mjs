@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 
 import { MESSAGES } from '../js/messages.js';
 import { THRESHOLDS, fillNames, pickGroup, pickMessage } from '../js/message-picker.js';
+import { getCountdownState } from '../js/target-date.js';
+import { jdFromDate } from '../js/lunar.js';
 
 test('kho câu không có câu nào trùng và không câu nào hỏng', () => {
   const tatCa = Object.values(MESSAGES).flat();
@@ -93,4 +95,28 @@ test('bảy ngày cuối chạy đúng thứ tự và kết bằng câu sát ng�
 test('thay tên vào câu', () => {
   assert.equal(fillNames('Ngủ ngon nhé {em}.', { tenEm: 'Mèo' }), 'Ngủ ngon nhé Mèo.');
   assert.equal(fillNames('Ngủ ngon nhé {em}.'), 'Ngủ ngon nhé em.');
+});
+
+test('đi hết chặng đếm ngược không ngày nào gặp lại câu cũ', () => {
+  // Đây là lời hứa thật với người đọc: mỗi ngày mở ra là một câu chưa từng thấy.
+  // Mô phỏng nguyên chặng từ hôm nay tới ngày về, đối chiếu từng ngày một.
+  const { daysRemaining, today } = getCountdownState(new Date());
+  const homNayJd = jdFromDate(today.day, today.month, today.year);
+
+  const daGap = new Map();
+
+  for (let con = daysRemaining; con >= 1; con -= 1) {
+    const dayNumber = homNayJd + (daysRemaining - con);
+    const cau = pickMessage({ daysRemaining: con, dayNumber });
+
+    if (daGap.has(cau)) {
+      assert.fail(
+        `Câu này hiện lại lần nữa sau ${daGap.get(cau) - con} ngày ` +
+          `(lần đầu lúc còn ${daGap.get(cau)} ngày, lặp lúc còn ${con} ngày):\n  ${cau}`,
+      );
+    }
+    daGap.set(cau, con);
+  }
+
+  assert.equal(daGap.size, daysRemaining, `Phải có đúng ${daysRemaining} câu khác nhau`);
 });
