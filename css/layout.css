@@ -153,45 +153,142 @@
   text-shadow: var(--shadow-text);
 }
 
-/* --- Nút nhạc --- */
+/* --- Trình phát nhạc --- */
 
-.audio-toggle {
+.player {
   position: fixed;
   z-index: 3;
   top: calc(var(--space-md) + env(safe-area-inset-top));
   right: var(--space-md);
   display: flex;
   align-items: center;
-  gap: 0.45rem;
-  padding: 0.5rem 0.9rem;
-  font-size: 0.78rem;
-  letter-spacing: 0.1em;
+  gap: 0.55rem;
+  padding: 0.4rem 0.75rem 0.4rem 0.5rem;
   color: var(--ink-soft);
   background: var(--scrim);
-  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
+  border: 1px solid color-mix(in srgb, var(--ink) 20%, transparent);
   border-radius: 999px;
   backdrop-filter: blur(8px);
   transition: background 0.3s var(--ease-soft), color 0.3s var(--ease-soft);
 }
 
-.audio-toggle:hover,
-.audio-toggle:focus-visible {
-  background: color-mix(in srgb, var(--scrim) 80%, var(--vignette-strong));
+.player:hover,
+.player:focus-within {
   color: var(--ink);
+  background: color-mix(in srgb, var(--scrim) 80%, var(--vignette-strong));
 }
 
-.audio-toggle[aria-pressed='true'] {
+.player__toggle {
+  display: grid;
+  place-items: center;
+  width: 26px;
+  height: 26px;
+  padding: 0;
+  border-radius: 50%;
+  color: inherit;
+  transition: transform 0.18s var(--ease-soft);
+}
+
+.player__toggle:hover {
+  transform: scale(1.12);
+}
+
+.player__toggle:focus-visible,
+.player__volume:focus-visible {
+  outline: 2px solid var(--so);
+  outline-offset: 3px;
+}
+
+.player__icon {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+}
+
+/* Đang tắt thì hiện nút chạy, đang phát thì hiện nút tạm dừng */
+.player__icon--pause,
+.player__toggle[aria-pressed='true'] .player__icon--play {
+  display: none;
+}
+
+.player__toggle[aria-pressed='true'] .player__icon--pause {
+  display: block;
   color: var(--so);
-  border-color: color-mix(in srgb, var(--so) 45%, transparent);
 }
 
-.audio-toggle[aria-pressed='true'] .audio-toggle__icon {
-  animation: nhipNhac 1.6s ease-in-out infinite;
+.player__speaker {
+  width: 15px;
+  height: 15px;
+  fill: currentColor;
+  stroke: currentColor;
+  flex-shrink: 0;
+  opacity: 0.75;
 }
 
-@keyframes nhipNhac {
-  0%, 100% { transform: translateY(0) scale(1); }
-  50% { transform: translateY(-2px) scale(1.15); }
+/* Vặn âm lượng về 0 thì tắt luôn vạch sóng cho khớp với cái tai nghe thấy */
+.player[data-im='true'] .player__wave {
+  opacity: 0;
+}
+
+.player__volume {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 72px;
+  height: 16px;
+  background: none;
+  cursor: pointer;
+}
+
+/* Phần bên trái con trượt tô đậm để nhìn cái là biết đang vặn tới đâu. */
+.player__volume::-webkit-slider-runnable-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--so) 0 var(--muc, 45%),
+    color-mix(in srgb, currentColor 40%, transparent) var(--muc, 45%) 100%
+  );
+}
+
+.player__volume::-moz-range-track {
+  height: 3px;
+  border-radius: 2px;
+  background: linear-gradient(
+    to right,
+    var(--so) 0 var(--muc, 45%),
+    color-mix(in srgb, currentColor 40%, transparent) var(--muc, 45%) 100%
+  );
+}
+
+.player__volume::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 11px;
+  height: 11px;
+  margin-top: -4px;
+  border: none;
+  border-radius: 50%;
+  background: var(--so);
+  transition: transform 0.15s var(--ease-soft);
+}
+
+.player__volume::-moz-range-thumb {
+  width: 11px;
+  height: 11px;
+  border: none;
+  border-radius: 50%;
+  background: var(--so);
+}
+
+.player__volume:hover::-webkit-slider-thumb {
+  transform: scale(1.25);
+}
+
+/* Màn hình hẹp thì thanh âm lượng ngắn lại cho đỡ chiếm chỗ */
+@media (max-width: 380px) {
+  .player__volume {
+    width: 52px;
+  }
 }
 
 /* --- Màn hình rộng --- */

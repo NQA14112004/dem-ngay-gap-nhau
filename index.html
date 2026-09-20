@@ -53,12 +53,36 @@
     <p class="tick" id="tick">&nbsp;</p>
   </main>
 
-  <button class="audio-toggle" id="audio-toggle" type="button" hidden aria-pressed="false">
-    <span class="audio-toggle__icon" aria-hidden="true">♪</span>
-    <span class="audio-toggle__label">Nhạc</span>
-  </button>
+  <!-- Trình phát nhạc: nút chạy/tạm dừng và thanh âm lượng -->
+  <div class="player" id="player" hidden>
+    <button class="player__toggle" id="audio-toggle" type="button" aria-pressed="false" aria-label="Bật nhạc nền">
+      <svg class="player__icon player__icon--play" viewBox="0 0 16 16" aria-hidden="true">
+        <path d="M4 2.5v11l9-5.5z" />
+      </svg>
+      <svg class="player__icon player__icon--pause" viewBox="0 0 16 16" aria-hidden="true">
+        <rect x="4" y="2.5" width="3" height="11" rx="1" />
+        <rect x="9.5" y="2.5" width="3" height="11" rx="1" />
+      </svg>
+    </button>
 
-  <audio id="bgm" loop preload="none"></audio>
+    <svg class="player__speaker" viewBox="0 0 16 16" aria-hidden="true">
+      <path d="M7.5 2.5 4 5.5H2v5h2l3.5 3z" />
+      <path class="player__wave" d="M10.5 5.5a3.5 3.5 0 0 1 0 5" fill="none" stroke-width="1.4" />
+    </svg>
+
+    <input
+      class="player__volume"
+      id="volume"
+      type="range"
+      min="0"
+      max="100"
+      step="1"
+      value="45"
+      aria-label="Âm lượng nhạc nền"
+    />
+  </div>
+
+  <audio id="bgm" loop preload="auto"></audio>
 
   <!-- Màn hình ngày về, chỉ hiện khi đếm về 0 -->
   <div class="finale" id="finale" hidden>

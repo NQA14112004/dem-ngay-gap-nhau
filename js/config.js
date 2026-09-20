@@ -36,7 +36,7 @@ export const config = {
    * điền tên file vào đây, ví dụ: 'assets/audio/bai-cua-minh.mp3'
    * Có file thì trang ưu tiên file, để trống thì dùng nhạc tự sinh.
    */
-  fileNhac: '',
+  fileNhac: 'assets/audio/nhac-nen.mp3',
 
   /**
    * Bình thường trang tự tính ngày 28 tháng Chạp sắp tới.

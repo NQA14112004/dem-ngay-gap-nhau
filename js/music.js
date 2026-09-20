@@ -109,6 +109,7 @@ const CHORD_EVERY_S = 13;
  * @returns {{ start: () => Promise<void>, stop: () => void, isPlaying: () => boolean }}
  */
 export function createMusic({ volume = DEFAULT_VOLUME, random = Math.random } = {}) {
+  let mucHienTai = volume;
   let ctx = null;
   let master = null;
   let timer = null;
@@ -270,7 +271,7 @@ export function createMusic({ volume = DEFAULT_VOLUME, random = Math.random } = 
 
       master.gain.cancelScheduledValues(bayGio);
       master.gain.setValueAtTime(0.0001, bayGio);
-      master.gain.exponentialRampToValueAtTime(volume, bayGio + 2.5);
+      master.gain.exponentialRampToValueAtTime(Math.max(0.0001, mucHienTai), bayGio + 2.5);
 
       dangChay = true;
       scheduler();
@@ -298,6 +299,23 @@ export function createMusic({ volume = DEFAULT_VOLUME, random = Math.random } = 
           ctx.suspend();
         }
       }, 1400);
+    },
+
+    /**
+     * Đổi âm lượng, kể cả khi nhạc đang phát.
+     *
+     * @param {number} muc Âm lượng trong khoảng 0 - 1
+     */
+    setVolume(muc) {
+      mucHienTai = Math.min(1, Math.max(0, muc));
+
+      if (ctx && master && dangChay) {
+        const bayGio = ctx.currentTime;
+        master.gain.cancelScheduledValues(bayGio);
+        master.gain.setValueAtTime(Math.max(0.0001, master.gain.value), bayGio);
+        // Trượt dần trong 0.15 giây thay vì nhảy cái rụp, tránh tiếng tạch
+        master.gain.linearRampToValueAtTime(Math.max(0.0001, mucHienTai), bayGio + 0.15);
+      }
     },
 
     isPlaying() {

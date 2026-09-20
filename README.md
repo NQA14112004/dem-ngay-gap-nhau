@@ -84,28 +84,42 @@ luôn tính theo ngày ở Việt Nam để hai người thấy cùng một số
 
 ## 4. Nhạc nền
 
-Trang **đã có nhạc sẵn** — một đoạn ngũ cung nhẹ do trình duyệt tự chơi, không
-phải file tải về. Vì được sinh ra lúc chạy nên không đoạn nào lặp lại y hệt đoạn
-nào, và không tốn một byte tải nhạc nào cả.
+Trang có trình phát nhỏ ở góc trên bên phải: nút chạy/tạm dừng và thanh âm lượng.
+Mức âm lượng được nhớ cho lần sau.
 
-Thang âm dùng là **ngũ cung điệu Bắc** (Đô Rê Fa Sol La) — thang quen thuộc của
-nhạc cổ truyền miền Bắc. Có hai lớp: hợp âm nền kéo dài phía dưới, và mấy nốt
-gảy thưa ở trên, thi thoảng lại nghỉ một nhịp.
+**Về chuyện tự phát.** Chrome, Safari, Firefox đều chặn trang phát tiếng khi
+người xem chưa chạm vào gì. Không lách được, không có ngoại lệ. Nên trang làm
+thế này: thử phát ngay khi vào; bị chặn thì nhạc tự bật ở **cú chạm đầu tiên**
+bất kỳ đâu trên màn hình. Với người xem thì gần như không khác gì tự phát.
 
-Muốn thay bằng bài của riêng hai đứa thì chép file `.mp3` vào `assets/audio/`
-rồi điền tên file vào dòng `fileNhac` trong `js/config.js`:
+Ai tự tay bấm tạm dừng thì lần sau vào trang sẽ không bị phát lại — tôn trọng
+lựa chọn đó.
 
-```js
-fileNhac: 'assets/audio/bai-cua-minh.mp3',
+### Đổi bài khác
+
+Chép file `.mp3` vào `assets/audio/` rồi sửa `fileNhac` trong `js/config.js`.
+
+Lưu ý hai giới hạn:
+
+- **GitHub từ chối mọi file trên 100 MB.** Đẩy lên sẽ bị chặn thẳng.
+- Người xem phải tải hết file rồi mới nghe được. File 100 MB nghĩa là chờ rất
+  lâu trên 4G, và tốn dung lượng mạng của họ.
+
+Nên cắt lấy vài phút rồi nén lại. File đang dùng là 170 giây, 112 kbps, 2,3 MB —
+cắt từ bản gốc 60 phút 137 MB bằng ffmpeg:
+
+```bash
+ffmpeg -ss 30 -t 170 -i goc.mp3 -ss 200 -t 6 -i goc.mp3   -filter_complex "[1:a][0:a]acrossfade=d=6:c1=tri:c2=tri[out]"   -map "[out]" -c:a libmp3lame -b:a 112k assets/audio/nhac-nen.mp3
 ```
 
-Có file thì trang ưu tiên file; file hỏng hoặc không thấy thì tự quay về nhạc
-tự sinh, không bao giờ để trang im bặt.
+Chỗ `acrossfade` là để chồng mờ đuôi lên đầu, nhờ vậy khi file lặp lại thì tai
+không nghe ra chỗ nối.
 
-Nhạc **không tự phát** khi mở trang — trình duyệt chặn, và mở ở chỗ đông người
-mà tự nhiên có nhạc thì phiền. Bấm nút loa góc trên bên phải thì mới chạy, và
-lần sau mở lại trình duyệt sẽ nhớ lựa chọn đó. Chuyển sang tab khác thì nhạc
-tự dừng, quay lại thì chạy tiếp.
+`.gitignore` chỉ cho phép đúng `assets/audio/nhac-nen.mp3` đi lên repo. File gốc
+và mọi file nhạc khác đều bị bỏ qua, tránh lỡ tay đẩy một file trăm MB lên.
+
+Không có file nào hợp lệ thì trang tự quay về **nhạc ngũ cung tự sinh** trong
+`js/music.js` — không bao giờ để trang im bặt.
 
 ## 5. Cập nhật trang đã chạy
 

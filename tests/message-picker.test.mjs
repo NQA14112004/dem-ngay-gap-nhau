@@ -2,17 +2,49 @@ import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
 import { MESSAGES } from '../js/messages.js';
-import { fillNames, pickGroup, pickMessage } from '../js/message-picker.js';
+import { THRESHOLDS, fillNames, pickGroup, pickMessage } from '../js/message-picker.js';
 
-test('kho câu đủ dùng cho cả một mùa chờ và không có câu nào trùng nhau', () => {
+test('kho câu không có câu nào trùng và không câu nào hỏng', () => {
   const tatCa = Object.values(MESSAGES).flat();
 
-  assert.ok(tatCa.length >= 150, `Mới có ${tatCa.length} câu, nên có ít nhất 150`);
   assert.equal(new Set(tatCa).size, tatCa.length, 'Có câu bị viết trùng');
 
   for (const cau of tatCa) {
     assert.ok(cau.trim().length > 12, `Câu quá ngắn: ${cau}`);
     assert.ok(!cau.includes('  '), `Câu bị dính hai khoảng trắng: ${cau}`);
+    assert.equal(cau, cau.trim(), `Câu thừa khoảng trắng ở đầu hoặc cuối: ${cau}`);
+  }
+});
+
+test('nhóm nào cũng có câu, không nhóm nào để trống', () => {
+  for (const [ten, ds] of Object.entries(MESSAGES)) {
+    assert.ok(Array.isArray(ds) && ds.length > 0, `Nhóm ${ten} không có câu nào`);
+  }
+});
+
+test('không câu nào quay lại quá sớm', () => {
+  // Bớt câu đi thì có lúc sẽ lặp lại, không sao. Nhưng lặp lại quá sớm thì
+  // người đọc nhận ra ngay và mất hết cảm giác mỗi ngày một câu mới.
+  //
+  // Mỗi nhóm chỉ cần đủ câu cho khoảng ngày của chính nó, tối đa là 20 ngày.
+  // Nhóm cuối chạy theo thứ tự cố định chứ không xoay vòng nên chỉ cần phủ
+  // đúng 7 ngày cuối.
+  const KHOANG_TOI_DA = 20;
+
+  const soNgayCuaNhom = {
+    cuoi: THRESHOLDS.cuoi,
+    gan: THRESHOLDS.gan - THRESHOLDS.cuoi,
+    giua: THRESHOLDS.giua - THRESHOLDS.gan,
+    xa: KHOANG_TOI_DA,
+  };
+
+  for (const [ten, ds] of Object.entries(MESSAGES)) {
+    const canCo = Math.min(KHOANG_TOI_DA, soNgayCuaNhom[ten]);
+
+    assert.ok(
+      ds.length >= canCo,
+      `Nhóm ${ten} chỉ có ${ds.length} câu, cần ít nhất ${canCo} thì mới không lặp sớm`,
+    );
   }
 });
 

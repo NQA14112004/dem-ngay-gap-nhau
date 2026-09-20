@@ -29,7 +29,9 @@ const el = {
   sceneArt: document.getElementById('scene-art'),
   particles: document.getElementById('particles'),
   audio: document.getElementById('bgm'),
+  player: document.getElementById('player'),
   audioToggle: document.getElementById('audio-toggle'),
+  volume: document.getElementById('volume'),
   finale: document.getElementById('finale'),
   fireworks: document.getElementById('fireworks'),
   finaleLetter: document.getElementById('finale-letter'),
@@ -142,9 +144,11 @@ window.addEventListener('resize', () => {
 
 // Nhạc nền chạy độc lập với phần đếm ngược: hỏng nhạc thì trang vẫn chạy bình thường.
 setupAudio({
-  audio: el.audio,
+  player: el.player,
   button: el.audioToggle,
+  slider: el.volume,
+  audio: el.audio,
   src: config.fileNhac,
 }).catch(() => {
-  el.audioToggle.hidden = true;
+  el.player.hidden = true;
 });

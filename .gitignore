@@ -7,9 +7,11 @@ desktop.ini
 .DS_Store
 *.swp
 
-# Nhạc nền là file cá nhân, không đẩy lên repo công khai.
-# Muốn đẩy lên thì xoá hai dòng dưới đây.
+# Chỉ đẩy lên đúng file nhạc đã cắt gọn. File gốc 137 MB và mọi file nhạc khác
+# đều bỏ qua - GitHub từ chối file trên 100 MB, và người xem cũng không nên
+# phải tải cả trăm MB chỉ để nghe nhạc nền.
 assets/audio/*.mp3
 assets/audio/*.m4a
+!assets/audio/nhac-nen.mp3
 
 node_modules/
