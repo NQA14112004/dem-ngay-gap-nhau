@@ -8,7 +8,7 @@
  *   3. Số hạt tính theo diện tích màn hình, có trần cứng.
  */
 
-import { between, createRandom } from './rng.js?v=f25a9ec3';
+import { between, createRandom } from './rng.js?v=015067cd';
 
 /** Trần số hạt, tránh làm nóng máy trên màn hình lớn. */
 const MAX_PARTICLES = 90;

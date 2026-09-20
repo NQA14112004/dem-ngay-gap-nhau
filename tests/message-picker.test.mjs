@@ -83,8 +83,9 @@ test('suốt 142 ngày chờ không ngày nào thiếu câu', () => {
 });
 
 test('bảy ngày cuối chạy đúng thứ tự và kết bằng câu sát ngày về nhất', () => {
+  // So với bản đã thay tên, vì pickMessage luôn thay {em} trước khi trả về
   const cauCuoi = pickMessage({ daysRemaining: 1, dayNumber: 2461440 });
-  assert.equal(cauCuoi, MESSAGES.cuoi.at(-1));
+  assert.equal(cauCuoi, fillNames(MESSAGES.cuoi.at(-1)));
 
   const cacCau = [7, 6, 5, 4, 3, 2, 1].map((con) =>
     pickMessage({ daysRemaining: con, dayNumber: 2461440 }),
@@ -119,4 +120,28 @@ test('đi hết chặng đếm ngược không ngày nào gặp lại câu cũ',
   }
 
   assert.equal(daGap.size, daysRemaining, `Phải có đúng ${daysRemaining} câu khác nhau`);
+});
+
+test('nhóm cuối phải có đúng số câu bằng số ngày nó phủ', () => {
+  // Nhóm này chạy theo thứ tự chứ không xoay vòng. Thừa câu thì mấy câu đầu
+  // không bao giờ được dùng và cả dãy bị đẩy lệch - câu viết cho ngày cuối sẽ
+  // rơi vào hôm trước đó.
+  assert.equal(
+    MESSAGES.cuoi.length,
+    THRESHOLDS.cuoi,
+    `Nhóm cuối có ${MESSAGES.cuoi.length} câu nhưng chỉ phủ ${THRESHOLDS.cuoi} ngày`,
+  );
+
+  // Mỗi câu trong nhóm phải thực sự được dùng đúng một lần
+  const daDung = new Set();
+  for (let con = THRESHOLDS.cuoi; con >= 1; con -= 1) {
+    daDung.add(pickMessage({ daysRemaining: con, dayNumber: 2461440 }));
+  }
+  assert.equal(daDung.size, MESSAGES.cuoi.length, 'Có câu trong nhóm cuối không bao giờ hiện ra');
+
+  // Câu cuối cùng phải rơi đúng vào ngày còn 1
+  assert.equal(
+    pickMessage({ daysRemaining: 1, dayNumber: 2461440 }),
+    fillNames(MESSAGES.cuoi.at(-1)),
+  );
 });

@@ -6,15 +6,15 @@
  * chỉnh đồng hồ máy.
  */
 
-import { config } from './config.js?v=f25a9ec3';
-import { getDaypart, parseDaypart } from './daypart.js?v=f25a9ec3';
-import { renderCountdown, startTicking } from './countdown.js?v=f25a9ec3';
-import { showFinale } from './finale.js?v=f25a9ec3';
-import { jdFromDate } from './lunar.js?v=f25a9ec3';
-import { startParticles } from './particles.js?v=f25a9ec3';
-import { applyScene, computeViewBox, pickScene } from './scene.js?v=f25a9ec3';
-import { setupAudio } from './audio.js?v=f25a9ec3';
-import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=f25a9ec3';
+import { config } from './config.js?v=015067cd';
+import { getDaypart, parseDaypart } from './daypart.js?v=015067cd';
+import { renderCountdown, startTicking } from './countdown.js?v=015067cd';
+import { showFinale } from './finale.js?v=015067cd';
+import { jdFromDate } from './lunar.js?v=015067cd';
+import { startParticles } from './particles.js?v=015067cd';
+import { applyScene, computeViewBox, pickScene } from './scene.js?v=015067cd';
+import { setupAudio } from './audio.js?v=015067cd';
+import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=015067cd';
 
 /** Tra sẵn các phần tử DOM dùng nhiều lần. */
 const el = {
