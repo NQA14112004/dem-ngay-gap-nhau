@@ -10,7 +10,7 @@
  * của ngày ở Việt Nam thì kết quả luôn là số nguyên và luôn giống nhau.
  */
 
-import { TIMEZONE_VN, jdFromDate, lunarToSolar, solarToLunar } from './lunar.js?v=009849fb';
+import { TIMEZONE_VN, jdFromDate, lunarToSolar, solarToLunar } from './lunar.js?v=f25a9ec3';
 
 /** Ngày âm lịch mục tiêu: 28 tháng Chạp - ngày anh về tới nhà. */
 export const TARGET_LUNAR_DAY = 28;

@@ -5,7 +5,7 @@
  * (xem GRACE_DAYS trong target-date.js) chứ không biến mất ngay hôm sau.
  */
 
-import { between, createRandom } from './rng.js?v=009849fb';
+import { between, createRandom } from './rng.js?v=f25a9ec3';
 
 /** Bảng màu pháo hoa: đỏ, vàng, hồng, trắng ngà - tông ngày Tết. */
 const COLORS = ['#ffd45e', '#ff6b6b', '#ffa64d', '#ffe9c4', '#ff8fb1'];

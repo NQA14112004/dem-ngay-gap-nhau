@@ -11,7 +11,7 @@
  * Với người xem thì gần như không khác gì tự phát.
  */
 
-import { createMusic } from './music.js?v=009849fb';
+import { createMusic } from './music.js?v=f25a9ec3';
 
 /** Khoá lưu trạng thái bật/tắt. */
 const STATE_KEY = 'dem-ngay-gap-nhau:nhac';
@@ -170,13 +170,37 @@ function resolveSource(audio, src) {
  * @param {string} params.src Đường dẫn file nhạc, để trống cũng được
  */
 export async function setupAudio({ player, button, slider, audio, src }) {
+  // Lắng nghe cú chạm NGAY từ đây, trước cả khi biết sẽ dùng nguồn nhạc nào.
+  //
+  // Lý do: dò xem có file nhạc không mất một lúc (file 2,3 MB phải tải xong mới
+  // biết). Nếu đợi dò xong mới lắng nghe thì cú chạm trong lúc chờ bị bỏ phí,
+  // người xem phải chạm lần thứ hai nhạc mới lên.
+  //
+  // Chạm được một lần rồi thì trình duyệt cho phép phát tiếng suốt phần đời còn
+  // lại của trang, nên chạm sớm lúc nào cũng dùng được.
+  let daCoTuongTac = false;
+  let khiCoTuongTac = () => {
+    daCoTuongTac = true;
+  };
+
+  const ghiNhanTuongTac = () => khiCoTuongTac();
+
+  for (const ten of GESTURE_EVENTS) {
+    document.addEventListener(ten, ghiNhanTuongTac, { once: true, passive: true });
+  }
+
+  const goLangNghe = () => {
+    for (const ten of GESTURE_EVENTS) {
+      document.removeEventListener(ten, ghiNhanTuongTac);
+    }
+  };
+
   const { nguon, tuFile } = await resolveSource(audio, src);
 
   player.dataset.nguon = tuFile ? 'file' : 'tu-sinh';
   player.hidden = false;
 
   let mucAmLuong = parseStoredVolume(readStored(VOLUME_KEY));
-  let daChoDoiCham = false;
 
   /**
    * Đồng bộ thanh âm lượng: vị trí con trượt, phần tô đậm, và dấu tắt tiếng.
@@ -204,51 +228,37 @@ export async function setupAudio({ player, button, slider, audio, src }) {
     button.setAttribute('aria-label', dangPhat ? 'Tạm dừng nhạc nền' : 'Bật nhạc nền');
   }
 
-  /** Chờ cú chạm đầu tiên rồi mới phát - dùng khi trình duyệt chặn tự phát. */
-  function choDoiCham() {
-    if (daChoDoiCham) {
-      return;
-    }
-    daChoDoiCham = true;
-
-    const chay = () => {
-      go();
-      nguon.start().then(() => setPressed(true), () => {});
-    };
-
-    const go = () => {
-      daChoDoiCham = false;
-      for (const ten of GESTURE_EVENTS) {
-        document.removeEventListener(ten, chay);
-      }
-    };
-
-    for (const ten of GESTURE_EVENTS) {
-      document.addEventListener(ten, chay, { once: true, passive: true });
-    }
-  }
-
   /**
-   * Thử phát. Bị chặn thì quay sang chờ cú chạm đầu tiên.
+   * Thử phát nhạc.
    *
-   * @param {boolean} [choDuocChan=true] Có dựng sẵn cơ chế chờ chạm không
+   * @returns {Promise<void>}
    */
-  function thuPhat(choDuocChan = true) {
+  function phat() {
     return nguon.start().then(
-      () => setPressed(true),
       () => {
-        setPressed(false);
-        if (choDuocChan) {
-          choDoiCham();
-        }
+        setPressed(true);
+        goLangNghe();
       },
+      () => setPressed(false),
     );
   }
 
   setPressed(false);
 
   if (shouldAutoplay(readStored(STATE_KEY))) {
-    thuPhat();
+    if (daCoTuongTac) {
+      // Người xem đã chạm trong lúc trang còn đang tải nhạc - dùng luôn cú đó
+      phat();
+    } else {
+      // Thử tự phát; trình duyệt chặn thì cú chạm đầu tiên sẽ bật nhạc
+      khiCoTuongTac = () => {
+        daCoTuongTac = true;
+        phat();
+      };
+      phat();
+    }
+  } else {
+    goLangNghe();
   }
 
   button.addEventListener('click', () => {
@@ -259,8 +269,7 @@ export async function setupAudio({ player, button, slider, audio, src }) {
       return;
     }
 
-    // Đây đã là một cú bấm rồi nên không cần dựng cơ chế chờ chạm nữa
-    thuPhat(false).then(() => {
+    phat().then(() => {
       if (nguon.isPlaying()) {
         writeStored(STATE_KEY, 'bat');
       }
@@ -285,7 +294,7 @@ export async function setupAudio({ player, button, slider, audio, src }) {
       setPressed(false);
     } else if (!document.hidden && dungViAn) {
       dungViAn = false;
-      thuPhat(false);
+      phat();
     }
   });
 }
