@@ -78,7 +78,9 @@
 .counter__number {
   font-family: var(--font-display);
   font-weight: 700;
-  font-size: clamp(6rem, 34vw, 15rem);
+  /* Bám theo cả bề ngang lẫn chiều cao. Chỉ lấy theo bề ngang thì lúc xoay
+     ngang máy con số phình to, đẩy câu và dòng ngày tháng rơi khỏi màn hình. */
+  font-size: clamp(3.5rem, min(34vw, 30vh), 15rem);
   line-height: 1.04;
   letter-spacing: -0.03em;
   color: var(--so);
@@ -106,6 +108,8 @@
 .message__text {
   font-family: var(--font-display);
   font-style: italic;
+  /* Chia dòng cho đều, tránh để sót một chữ lủi thủi ở dòng cuối. */
+  text-wrap: balance;
   font-size: clamp(1.1rem, 5vw, 1.5rem);
   line-height: 1.6;
   color: var(--ink);
@@ -288,6 +292,43 @@
 @media (max-width: 380px) {
   .player__volume {
     width: 52px;
+  }
+}
+
+/* --- Màn hình thấp: xoay ngang điện thoại, hoặc cửa sổ bị kéo dẹt --- */
+
+@media (max-height: 560px) {
+  .page {
+    gap: var(--space-sm);
+    justify-content: flex-start;
+    padding-top: calc(var(--space-md) + env(safe-area-inset-top));
+  }
+
+  .page__eyebrow {
+    line-height: 1.6;
+  }
+
+  /* Bỏ chiều cao tối thiểu của khối câu: chỗ đó để dành cho con số và ngày tháng. */
+  .message {
+    min-height: 0;
+    max-width: 46ch;
+  }
+
+  .message__text {
+    font-size: 1.05rem;
+    line-height: 1.5;
+  }
+
+  .counter {
+    gap: 0.1rem;
+  }
+
+  .counter__label {
+    font-size: 0.8rem;
+  }
+
+  .counter__number {
+    font-size: min(22vh, 7rem);
   }
 }
 

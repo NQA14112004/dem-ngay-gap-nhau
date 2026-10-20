@@ -5,7 +5,10 @@
  * (xem GRACE_DAYS trong target-date.js) chứ không biến mất ngay hôm sau.
  */
 
-import { between, createRandom } from './rng.js?v=015067cd';
+import { formatLunarDate } from './format.js?v=c8499b3c';
+import { fillNames } from './message-picker.js?v=c8499b3c';
+import { between, createRandom } from './rng.js?v=c8499b3c';
+import { TARGET_LUNAR_DAY, TARGET_LUNAR_MONTH } from './target-date.js?v=c8499b3c';
 
 /** Bảng màu pháo hoa: đỏ, vàng, hồng, trắng ngà - tông ngày Tết. */
 const COLORS = ['#ffd45e', '#ff6b6b', '#ffa64d', '#ffe9c4', '#ff8fb1'];
@@ -27,9 +30,11 @@ const BURST_INTERVAL_MS = 900;
 function renderLetter({ letterNode, signNode, config }) {
   letterNode.replaceChildren();
 
+  const names = { tenEm: config.tenEm, tenAnh: config.tenAnh };
+
   config.thuNgo.forEach((doan, index) => {
     const p = document.createElement('p');
-    p.textContent = doan;
+    p.textContent = fillNames(doan, names);
     // Từng đoạn hiện ra lần lượt cho giống đang đọc thư.
     p.style.animationDelay = `${0.9 + index * 0.45}s`;
     letterNode.append(p);
@@ -146,13 +151,22 @@ function startFireworks(canvas) {
  * @param {object} params Tham số
  * @param {HTMLElement} params.root Khối .finale
  * @param {HTMLCanvasElement} params.canvas Canvas pháo hoa
+ * @param {HTMLElement} [params.dateNode] Dòng ngày âm lịch phía trên tiêu đề
  * @param {HTMLElement} params.letterNode Khối chứa thư
  * @param {HTMLElement} params.signNode Dòng ký tên
  * @param {object} params.config Cấu hình người dùng
  * @returns {{ stop: () => void }}
  */
-export function showFinale({ root, canvas, letterNode, signNode, config }) {
+export function showFinale({ root, canvas, dateNode, letterNode, signNode, config }) {
   renderLetter({ letterNode, signNode, config });
+
+  if (dateNode) {
+    dateNode.textContent = formatLunarDate({
+      day: TARGET_LUNAR_DAY,
+      month: TARGET_LUNAR_MONTH,
+    });
+  }
+
   root.hidden = false;
 
   const stopFireworks = startFireworks(canvas);

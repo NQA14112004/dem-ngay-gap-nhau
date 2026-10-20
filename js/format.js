@@ -8,9 +8,14 @@ export const LUNAR_MONTH_NAMES = [
   'Bảy', 'Tám', 'Chín', 'Mười', 'Một', 'Chạp',
 ];
 
-/** Thứ trong tuần, tra theo phần dư của Julian Day Number cho 7. */
+/**
+ * Thứ trong tuần, tra theo phần dư của Julian Day Number cho 7.
+ *
+ * Viết thường chữ "thứ" vì tên thứ luôn nằm giữa câu ("Hôm nay thứ Ba, ...").
+ * Tiếng Việt chỉ viết hoa phần tên riêng: thứ Ba, Chủ nhật.
+ */
 export const WEEKDAY_NAMES = [
-  'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy', 'Chủ Nhật',
+  'thứ Hai', 'thứ Ba', 'thứ Tư', 'thứ Năm', 'thứ Sáu', 'thứ Bảy', 'Chủ nhật',
 ];
 
 /**

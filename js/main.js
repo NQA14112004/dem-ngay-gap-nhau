@@ -1,20 +1,20 @@
 /**
  * Điểm khởi động: ráp tất cả các mảnh lại với nhau.
  *
- * Mẹo xem thử: thêm ?ngay=2027-02-04 vào cuối địa chỉ để giả vờ hôm nay là
+ * Mẹo xem thử: thêm ?ngay=2027-02-01 vào cuối địa chỉ để giả vờ hôm nay là
  * ngày đó. Rất tiện để xem trước cảnh Tết và màn hình ngày về mà không phải
  * chỉnh đồng hồ máy.
  */
 
-import { config } from './config.js?v=015067cd';
-import { getDaypart, parseDaypart } from './daypart.js?v=015067cd';
-import { renderCountdown, startTicking } from './countdown.js?v=015067cd';
-import { showFinale } from './finale.js?v=015067cd';
-import { jdFromDate } from './lunar.js?v=015067cd';
-import { startParticles } from './particles.js?v=015067cd';
-import { applyScene, computeViewBox, pickScene } from './scene.js?v=015067cd';
-import { setupAudio } from './audio.js?v=015067cd';
-import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=015067cd';
+import { config } from './config.js?v=c8499b3c';
+import { getDaypart, parseDaypart } from './daypart.js?v=c8499b3c';
+import { renderCountdown, startTicking } from './countdown.js?v=c8499b3c';
+import { showFinale } from './finale.js?v=c8499b3c';
+import { jdFromDate } from './lunar.js?v=c8499b3c';
+import { startParticles } from './particles.js?v=c8499b3c';
+import { applyScene, computeViewBox, pickScene } from './scene.js?v=c8499b3c';
+import { setupAudio } from './audio.js?v=c8499b3c';
+import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=c8499b3c';
 
 /** Tra sẵn các phần tử DOM dùng nhiều lần. */
 const el = {
@@ -34,6 +34,7 @@ const el = {
   volume: document.getElementById('volume'),
   finale: document.getElementById('finale'),
   fireworks: document.getElementById('fireworks'),
+  finaleDate: document.getElementById('finale-date'),
   finaleLetter: document.getElementById('finale-letter'),
   finaleSign: document.getElementById('finale-sign'),
 };
@@ -109,10 +110,17 @@ function draw() {
 
   renderCountdown(el, state, config);
 
+  // Tiêu đề tab đếm theo luôn, để liếc lên thanh tab là biết còn mấy ngày.
+  document.title =
+    state.daysRemaining > 0
+      ? `Còn ${state.daysRemaining} ngày nữa anh về`
+      : 'Anh về rồi';
+
   if (state.hasArrived) {
     running.finale = showFinale({
       root: el.finale,
       canvas: el.fireworks,
+      dateNode: el.finaleDate,
       letterNode: el.finaleLetter,
       signNode: el.finaleSign,
       config,

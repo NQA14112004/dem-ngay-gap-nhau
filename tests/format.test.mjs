@@ -23,7 +23,7 @@ test('định dạng ngày âm lịch theo cách gọi của người Việt', (
 });
 
 test('tên thứ khớp với lịch thật trong suốt 400 ngày', () => {
-  const tenTheoJs = ['Chủ Nhật', 'Thứ Hai', 'Thứ Ba', 'Thứ Tư', 'Thứ Năm', 'Thứ Sáu', 'Thứ Bảy'];
+  const tenTheoJs = ['Chủ nhật', 'thứ Hai', 'thứ Ba', 'thứ Tư', 'thứ Năm', 'thứ Sáu', 'thứ Bảy'];
 
   for (let i = 0; i < 400; i += 1) {
     const moc = new Date(Date.UTC(2026, 0, 1) + i * 86400000);
@@ -37,8 +37,8 @@ test('tên thứ khớp với lịch thật trong suốt 400 ngày', () => {
   }
 });
 
-test('ngày về 04/02/2027 là Thứ Năm', () => {
-  assert.equal(formatWeekday(jdFromDate(4, 2, 2027)), 'Thứ Năm');
+test('ngày về 04/02/2027 là thứ Năm', () => {
+  assert.equal(formatWeekday(jdFromDate(4, 2, 2027)), 'thứ Năm');
 });
 
 test('định dạng đồng hồ đếm tới nửa đêm', () => {

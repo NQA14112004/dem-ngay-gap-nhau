@@ -45,32 +45,51 @@ test('vẽ đủ thông tin ra màn hình cho một ngày bình thường', () =
 
   renderCountdown(el, state, config);
 
-  assert.equal(el.days.textContent, '142');
+  assert.equal(el.days.textContent, '139');
   assert.equal(el.unit.textContent, 'ngày nữa anh về');
-  assert.match(el.todayLine.textContent, /^Hôm nay Thứ Ba, 15\/09\/2026 · mùng 5 tháng Tám$/);
-  assert.match(el.targetLine.innerHTML, /28 tháng Chạp/);
-  assert.match(el.targetLine.innerHTML, /Thứ Năm, 04\/02\/2027/);
+  assert.match(el.todayLine.textContent, /^Hôm nay thứ Ba, 15\/09\/2026 · mùng 5 tháng Tám$/);
+  assert.match(el.targetLine.innerHTML, /25 tháng Chạp/);
+  assert.match(el.targetLine.innerHTML, /thứ Hai, 01\/02\/2027/);
   assert.ok(el.message.textContent.length > 12, 'phải có câu yêu thương');
 });
 
 test('còn đúng 1 ngày thì đổi cách xưng hô cho hợp', () => {
   const el = taoBoThe();
-  const state = getCountdownState(new Date(), { today: { day: 3, month: 2, year: 2027 } });
+  const state = getCountdownState(new Date(), { today: { day: 31, month: 1, year: 2027 } });
 
   renderCountdown(el, state, config);
 
   assert.equal(el.days.textContent, '1');
-  assert.equal(el.unit.textContent, 'ngày nữa. Mai anh về.');
+  assert.equal(el.unit.textContent, 'ngày nữa thôi. Mai anh về.');
 });
 
 test('ngày về thì con số là 0 và trang biết là đã tới nơi', () => {
   const el = taoBoThe();
-  const state = getCountdownState(new Date(), { today: { day: 4, month: 2, year: 2027 } });
+  const state = getCountdownState(new Date(), { today: { day: 1, month: 2, year: 2027 } });
 
   renderCountdown(el, state, config);
 
   assert.equal(el.days.textContent, '0');
   assert.equal(state.hasArrived, true);
+
+  // Màn hình thư mất một hai giây mới hiện hết, nên phần chữ nền phía dưới
+  // vẫn phải đọc được mà không sai nghĩa.
+  assert.equal(el.unit.textContent, 'ngày nữa. Hết đếm rồi.');
+  assert.doesNotMatch(el.message.textContent, /Mai anh về/);
+});
+
+test('chữ ngày về không gắn vào riêng hôm đó, vì còn hiện suốt mấy ngày ân hạn', () => {
+  // Hôm về và mấy hôm Tết sau đó đều là daysRemaining = 0, dùng chung một câu.
+  // Câu ấy mà nói "hôm nay anh về" thì tới mùng 3 đọc lại là sai.
+  const el = taoBoThe();
+
+  for (const ngay of [1, 5, 10]) {
+    const state = getCountdownState(new Date(), { today: { day: ngay, month: 2, year: 2027 } });
+    renderCountdown(el, state, config);
+
+    assert.equal(state.daysRemaining, 0);
+    assert.doesNotMatch(el.message.textContent, /hôm nay|Hôm nay/);
+  }
 });
 
 test('mùa chọn theo tháng, bố cục chọn theo tuần, ánh sáng chọn theo buổi', () => {

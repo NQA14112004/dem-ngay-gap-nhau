@@ -50,6 +50,6 @@ createServer(async (req, res) => {
   }
 }).listen(PORT, () => {
   console.log(`Trang dang chay tai: http://localhost:${PORT}`);
-  console.log('Xem thu mot ngay khac:  http://localhost:' + PORT + '/?ngay=2027-02-04');
+  console.log('Xem thu mot ngay khac:  http://localhost:' + PORT + '/?ngay=2027-02-01');
   console.log('Bam Ctrl+C de dung.');
 });

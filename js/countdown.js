@@ -5,10 +5,17 @@
  * các module riêng, do main.js điều phối.
  */
 
-import { formatDuration, formatLunarDate, formatSolarDate, formatWeekday } from './format.js?v=015067cd';
-import { jdFromDate } from './lunar.js?v=015067cd';
-import { pickMessage } from './message-picker.js?v=015067cd';
-import { msUntilVietnamMidnight } from './target-date.js?v=015067cd';
+import { formatDuration, formatLunarDate, formatSolarDate, formatWeekday } from './format.js?v=c8499b3c';
+import { jdFromDate } from './lunar.js?v=c8499b3c';
+import { fillNames, pickMessage } from './message-picker.js?v=c8499b3c';
+import {
+  TARGET_LUNAR_DAY,
+  TARGET_LUNAR_MONTH,
+  msUntilVietnamMidnight,
+} from './target-date.js?v=c8499b3c';
+
+/** Tên âm lịch của mốc, ví dụ "25 tháng Chạp". Lấy từ target-date, không gõ cứng. */
+const TEN_MOC = formatLunarDate({ day: TARGET_LUNAR_DAY, month: TARGET_LUNAR_MONTH });
 
 /** Nhịp cập nhật đồng hồ phụ. */
 const TICK_INTERVAL_MS = 1000;
@@ -20,8 +27,13 @@ const TICK_INTERVAL_MS = 1000;
  * @returns {string}
  */
 function unitText(daysRemaining) {
+  if (daysRemaining <= 0) {
+    // Dòng này còn hiện suốt mấy ngày ân hạn sau đó, nên không nói gì gắn vào
+    // riêng hôm nay - chỉ nói về chính con số, thế thì hôm nào cũng đúng.
+    return 'ngày nữa. Hết đếm rồi.';
+  }
   if (daysRemaining === 1) {
-    return 'ngày nữa. Mai anh về.';
+    return 'ngày nữa thôi. Mai anh về.';
   }
   if (daysRemaining <= 7) {
     return 'ngày nữa là anh về tới nhà';
@@ -41,7 +53,9 @@ export function renderCountdown(el, state, config) {
   const todayJd = jdFromDate(today.day, today.month, today.year);
   const targetJd = jdFromDate(target.day, target.month, target.year);
 
-  el.eyebrow.textContent = config.loiMoDau;
+  const names = { tenEm: config.tenEm, tenAnh: config.tenAnh };
+
+  el.eyebrow.textContent = fillNames(config.loiMoDau, names);
   el.days.textContent = String(daysRemaining);
   el.unit.textContent = unitText(daysRemaining);
 
@@ -49,13 +63,9 @@ export function renderCountdown(el, state, config) {
     `Hôm nay ${formatWeekday(todayJd)}, ${formatSolarDate(today)} · ${formatLunarDate(lunarToday)}`;
 
   el.targetLine.innerHTML =
-    `Ngày về: <strong>28 tháng Chạp</strong> · ${formatWeekday(targetJd)}, ${formatSolarDate(target)}`;
+    `Ngày về: <strong>${TEN_MOC}</strong> · ${formatWeekday(targetJd)}, ${formatSolarDate(target)}`;
 
-  const message = pickMessage({
-    daysRemaining,
-    dayNumber: todayJd,
-    names: { tenEm: config.tenEm, tenAnh: config.tenAnh },
-  });
+  const message = pickMessage({ daysRemaining, dayNumber: todayJd, names });
 
   swapMessage(el.message, message);
 }
@@ -109,7 +119,7 @@ export function startTicking(el, { daysRemaining, today, daypart, readToday, rea
 
     el.tick.textContent =
       daysRemaining > 0
-        ? `Còn ${formatDuration(msUntilVietnamMidnight())} nữa là bớt một ngày`
+        ? `${formatDuration(msUntilVietnamMidnight())} nữa là con số bớt đi một`
         : '';
   }, TICK_INTERVAL_MS);
 

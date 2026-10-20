@@ -4,10 +4,17 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
   <title>Đếm ngược ngày mình gặp nhau</title>
-  <meta name="description" content="Còn bao nhiêu ngày nữa là tới 28 tháng Chạp - ngày anh về với em." />
+  <meta name="description" content="Còn mấy ngày nữa là tới 25 tháng Chạp — hôm anh về với em." />
   <meta name="theme-color" content="#1b1033" />
   <!-- Trang riêng: ai có link vẫn mở được, chỉ là không lên Google. -->
   <meta name="robots" content="noindex, nofollow" />
+
+  <!-- Gửi link qua Messenger hay Zalo thì phần xem trước lấy mấy dòng này. -->
+  <meta property="og:type" content="website" />
+  <meta property="og:locale" content="vi_VN" />
+  <meta property="og:title" content="Đếm ngược ngày mình gặp nhau" />
+  <meta property="og:description" content="Còn mấy ngày nữa là tới 25 tháng Chạp — hôm anh về với em." />
+  <meta name="twitter:card" content="summary" />
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -16,11 +23,11 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/base.css?v=015067cd" />
-  <link rel="stylesheet" href="css/layout.css?v=015067cd" />
-  <link rel="stylesheet" href="css/scenes.css?v=015067cd" />
-  <link rel="stylesheet" href="css/particles.css?v=015067cd" />
-  <link rel="stylesheet" href="css/finale.css?v=015067cd" />
+  <link rel="stylesheet" href="css/base.css?v=c8499b3c" />
+  <link rel="stylesheet" href="css/layout.css?v=c8499b3c" />
+  <link rel="stylesheet" href="css/scenes.css?v=c8499b3c" />
+  <link rel="stylesheet" href="css/particles.css?v=c8499b3c" />
+  <link rel="stylesheet" href="css/finale.css?v=c8499b3c" />
 </head>
 <body data-scene="thu" data-buoi="toi">
   <!-- Nền: trời, quầng sáng, tranh SVG theo mùa, hạt rơi -->
@@ -33,7 +40,8 @@
   </div>
 
   <main class="page">
-    <p class="page__eyebrow" id="eyebrow">Anh đang đếm từng ngày để về với em</p>
+    <!-- Để trống cho tới khi js đổ chữ từ config vào, khỏi hiện một câu rồi đổi câu khác. -->
+    <p class="page__eyebrow" id="eyebrow">&nbsp;</p>
 
     <section class="counter" aria-live="polite">
       <p class="counter__label">Còn</p>
@@ -88,13 +96,14 @@
   <div class="finale" id="finale" hidden>
     <canvas class="finale__fireworks" id="fireworks" aria-hidden="true"></canvas>
     <div class="finale__content">
-      <p class="finale__eyebrow">28 tháng Chạp</p>
+      <!-- Chữ dự phòng thôi, js lấy mốc thật trong target-date.js đổ vào. -->
+      <p class="finale__eyebrow" id="finale-date">25 tháng Chạp</p>
       <h1 class="finale__title">Anh về rồi</h1>
       <div class="finale__letter" id="finale-letter"></div>
       <p class="finale__sign" id="finale-sign"></p>
     </div>
   </div>
 
-  <script type="module" src="js/main.js?v=015067cd"></script>
+  <script type="module" src="js/main.js?v=c8499b3c"></script>
 </body>
 </html>

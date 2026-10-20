@@ -11,15 +11,15 @@ import {
   parseDateString,
 } from '../js/target-date.js';
 
-/** Mốc của trang: 28 tháng Chạp năm Bính Ngọ. */
-const NGAY_VE = { day: 4, month: 2, year: 2027 };
+/** Mốc của trang: 25 tháng Chạp năm Bính Ngọ. */
+const NGAY_VE = { day: 1, month: 2, year: 2027 };
 
-test('ngày về là 04/02/2027 dù hôm nay là ngày nào trong năm trước đó', () => {
+test('ngày về là 01/02/2027 dù hôm nay là ngày nào trong năm trước đó', () => {
   const cacNgay = [
     { day: 15, month: 9, year: 2026 },
     { day: 1, month: 1, year: 2027 },
-    { day: 3, month: 2, year: 2027 },
-    { day: 4, month: 2, year: 2027 },
+    { day: 31, month: 1, year: 2027 },
+    { day: 1, month: 2, year: 2027 },
   ];
 
   for (const today of cacNgay) {
@@ -27,7 +27,7 @@ test('ngày về là 04/02/2027 dù hôm nay là ngày nào trong năm trước 
     assert.deepEqual(
       { day: target.day, month: target.month, year: target.year },
       NGAY_VE,
-      `Đứng ở ngày ${today.day}/${today.month}/${today.year} thì mốc vẫn phải là 4/2/2027`,
+      `Đứng ở ngày ${today.day}/${today.month}/${today.year} thì mốc vẫn phải là 1/2/2027`,
     );
   }
 });
@@ -35,12 +35,12 @@ test('ngày về là 04/02/2027 dù hôm nay là ngày nào trong năm trước 
 test('số ngày còn lại giảm đúng 1 sau mỗi ngày, không nhảy cóc', () => {
   const state = (today) => getCountdownState(new Date(), { today }).daysRemaining;
 
-  assert.equal(state({ day: 4, month: 2, year: 2027 }), 0, 'đúng ngày về thì bằng 0');
-  assert.equal(state({ day: 3, month: 2, year: 2027 }), 1);
-  assert.equal(state({ day: 2, month: 2, year: 2027 }), 2);
-  assert.equal(state({ day: 31, month: 1, year: 2027 }), 4, 'qua mốc đổi tháng vẫn đúng');
-  assert.equal(state({ day: 31, month: 12, year: 2026 }), 35, 'qua mốc đổi năm vẫn đúng');
-  assert.equal(state({ day: 15, month: 9, year: 2026 }), 142);
+  assert.equal(state({ day: 1, month: 2, year: 2027 }), 0, 'đúng ngày về thì bằng 0');
+  assert.equal(state({ day: 31, month: 1, year: 2027 }), 1, 'qua mốc đổi tháng vẫn đúng');
+  assert.equal(state({ day: 30, month: 1, year: 2027 }), 2);
+  assert.equal(state({ day: 25, month: 1, year: 2027 }), 7);
+  assert.equal(state({ day: 31, month: 12, year: 2026 }), 32, 'qua mốc đổi năm vẫn đúng');
+  assert.equal(state({ day: 15, month: 9, year: 2026 }), 139);
 });
 
 test('mỗi ngày trôi qua thì con số bớt đúng 1 - kiểm 200 ngày liên tiếp', () => {
@@ -60,7 +60,7 @@ test('mỗi ngày trôi qua thì con số bớt đúng 1 - kiểm 200 ngày liê
 
 test('về 0 rồi thì kẹp ở 0 và báo đã về, không hiện số âm', () => {
   for (let i = 0; i <= GRACE_DAYS; i += 1) {
-    const today = { day: 4 + i, month: 2, year: 2027 };
+    const today = { day: 1 + i, month: 2, year: 2027 };
     const state = getCountdownState(new Date(), { today });
 
     assert.equal(state.daysRemaining, 0, `Ngày ${today.day}/2 phải vẫn là 0`);
@@ -68,15 +68,22 @@ test('về 0 rồi thì kẹp ở 0 và báo đã về, không hiện số âm',
   }
 });
 
+test('màn hình ngày về ở lại qua mùng 5 Tết rồi mới thôi', () => {
+  // Mùng 1 Tết Đinh Mùi là 06/02/2027, nên mùng 5 là 10/02.
+  const state = getCountdownState(new Date(), { today: { day: 10, month: 2, year: 2027 } });
+
+  assert.equal(state.hasArrived, true, 'mùng 5 Tết vẫn phải còn màn hình ngày về');
+});
+
 test('qua thời gian ân hạn thì tự bắt đầu đếm ngược cho Tết năm sau', () => {
-  const today = { day: 4 + GRACE_DAYS + 1, month: 2, year: 2027 };
+  const today = { day: 1 + GRACE_DAYS + 1, month: 2, year: 2027 };
   const state = getCountdownState(new Date(), { today });
 
   assert.equal(state.hasArrived, false);
   assert.deepEqual(
     { day: state.target.day, month: state.target.month, year: state.target.year },
-    { day: 24, month: 1, year: 2028 },
-    '28 tháng Chạp năm Đinh Mùi là 24/01/2028',
+    { day: 21, month: 1, year: 2028 },
+    '25 tháng Chạp năm Đinh Mùi là 21/01/2028',
   );
   assert.ok(state.daysRemaining > 300 && state.daysRemaining < 370);
 });
@@ -85,7 +92,8 @@ test('máy ở múi giờ nào cũng hiện cùng một con số', () => {
   // Đây là lý do cả file này tồn tại: anh và em đang ở hai múi giờ khác nhau,
   // mở trang cùng lúc thì phải thấy cùng một con số.
   const moduleUrl = new URL('../js/target-date.js', import.meta.url).href;
-  const thoiDiem = '2027-02-02T20:30:00.000Z';
+  // 20:30 UTC = 03:30 sáng hôm sau ở Việt Nam, tức là lúc hai đầu lệch ngày nhau nhất.
+  const thoiDiem = '2027-01-30T20:30:00.000Z';
 
   const code = `
     const mod = await import(process.env.MODULE_URL);
@@ -101,7 +109,7 @@ test('máy ở múi giờ nào cũng hiện cùng một con số', () => {
     }).trim();
 
   const ketQua = ['UTC', 'Asia/Ho_Chi_Minh', 'America/Los_Angeles', 'Europe/Berlin', 'Pacific/Auckland'].map(chay);
-  const mongDoi = JSON.stringify({ today: { day: 3, month: 2, year: 2027 }, days: 1 });
+  const mongDoi = JSON.stringify({ today: { day: 31, month: 1, year: 2027 }, days: 1 });
 
   for (const [i, dong] of ketQua.entries()) {
     assert.equal(dong, mongDoi, `Múi giờ thứ ${i} cho kết quả khác: ${dong}`);

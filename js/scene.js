@@ -10,12 +10,12 @@
  * mở ra khác, tối mở ra khác; sang tuần mới lại là một khung cảnh khác hẳn.
  */
 
-import { getDaypart } from './daypart.js?v=015067cd';
-import { celestial, clouds, stars } from './scene-art.js?v=015067cd';
-import { blossomBranch, lanterns } from './scene-art.js?v=015067cd';
-import { ART_HEIGHT } from './scene-art.js?v=015067cd';
-import { DAYS_PER_WEEK, pickLayout } from './scene-layouts.js?v=015067cd';
-import { createRandom } from './rng.js?v=015067cd';
+import { getDaypart } from './daypart.js?v=c8499b3c';
+import { celestial, clouds, stars } from './scene-art.js?v=c8499b3c';
+import { blossomBranch, lanterns } from './scene-art.js?v=c8499b3c';
+import { ART_HEIGHT } from './scene-art.js?v=c8499b3c';
+import { DAYS_PER_WEEK, pickLayout } from './scene-layouts.js?v=c8499b3c';
+import { createRandom } from './rng.js?v=c8499b3c';
 
 /** Còn từ ngần này ngày trở xuống thì bật chế độ Tết. */
 export const TET_THRESHOLD = 30;

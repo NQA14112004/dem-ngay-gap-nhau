@@ -39,13 +39,13 @@ test('mùng 1 Tết các năm 2020-2035 khớp với lịch Việt Nam', () => {
   }
 });
 
-test('28 tháng Chạp năm Bính Ngọ là ngày 04/02/2027 - mốc đếm ngược của trang', () => {
-  assert.deepEqual(lunarToSolar(28, 12, 2026), { day: 4, month: 2, year: 2027 });
+test('25 tháng Chạp năm Bính Ngọ là ngày 01/02/2027 - mốc đếm ngược của trang', () => {
+  assert.deepEqual(lunarToSolar(25, 12, 2026), { day: 1, month: 2, year: 2027 });
 });
 
-test('28 tháng Chạp luôn cách mùng 1 Tết đúng 2 hoặc 3 ngày', () => {
+test('25 tháng Chạp luôn cách mùng 1 Tết đúng 5 hoặc 6 ngày', () => {
   for (const { lunarYear } of TET_DATES) {
-    const trongTet = lunarToSolar(28, 12, lunarYear - 1);
+    const trongTet = lunarToSolar(25, 12, lunarYear - 1);
     const tet = lunarToSolar(1, 1, lunarYear);
 
     const khoangCach =
@@ -53,8 +53,8 @@ test('28 tháng Chạp luôn cách mùng 1 Tết đúng 2 hoặc 3 ngày', () =>
       jdFromDate(trongTet.day, trongTet.month, trongTet.year);
 
     assert.ok(
-      khoangCach === 2 || khoangCach === 3,
-      `Năm âm lịch ${lunarYear}: khoảng cách là ${khoangCach} ngày, phải là 2 (tháng thiếu) hoặc 3 (tháng đủ)`,
+      khoangCach === 5 || khoangCach === 6,
+      `Năm âm lịch ${lunarYear}: khoảng cách là ${khoangCach} ngày, phải là 5 (tháng thiếu) hoặc 6 (tháng đủ)`,
     );
   }
 });

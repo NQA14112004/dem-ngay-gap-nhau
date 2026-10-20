@@ -12,18 +12,18 @@ export const config = {
   /** Tên bạn. Dùng để ký cuối bức thư ngày về. */
   tenAnh: 'QuangAnh',
 
-  /** Dòng chữ nhỏ trên cùng màn hình. */
-  loiMoDau: 'Đếm ngược tới ngày anh về',
+  /** Dòng chữ nhỏ trên cùng màn hình. Dùng được {em} và {anh}. */
+  loiMoDau: 'Anh làm trang này cho {em}',
 
   /**
-   * Bức thư hiện ra đúng ngày về (28 tháng Chạp).
-   * Mỗi dòng trong mảng là một đoạn. Viết gì tuỳ bạn.
+   * Bức thư hiện ra đúng ngày về (25 tháng Chạp).
+   * Mỗi dòng trong mảng là một đoạn. Dùng được {em} và {anh}. Viết gì tuỳ bạn.
    */
   thuNgo: [
-    'Em à,',
-    'Số trên màn hình về 0 rồi.',
-    'Mấy tháng qua anh ngồi bên kia nhìn nó bớt đi từng ngày một. Chỉ để chờ đúng hôm nay.',
-    'Anh về rồi. Không phải đếm nữa.',
+    '{em} à,',
+    'Con số trên màn hình về 0 rồi.',
+    'Mấy tháng vừa rồi anh ở bên kia, ngày nào cũng nhìn nó bớt đi một, chỉ để chờ đúng hôm nay.',
+    'Từ hôm nay, muốn gặp em anh chỉ cần đi mấy phút.',
   ],
 
   /**
@@ -39,7 +39,7 @@ export const config = {
   fileNhac: 'assets/audio/nhac-nen.mp3',
 
   /**
-   * Bình thường trang tự tính ngày 28 tháng Chạp sắp tới.
+   * Bình thường trang tự tính ngày 25 tháng Chạp sắp tới.
    * Nếu ngày bay thật của bạn khác, điền vào đây dạng 'YYYY-MM-DD'.
    * Ví dụ: overrideTargetDate: '2027-02-01'
    */

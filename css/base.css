@@ -55,7 +55,11 @@ body {
   font-weight: 300;
   color: var(--ink);
   background: var(--sky-bottom);
-  overflow: hidden;
+  /* Chặn trượt ngang, nhưng vẫn cho cuộn dọc: xoay ngang điện thoại hoặc máy
+     màn hình thấp thì khối chữ cao hơn màn hình, cắt đi là mất luôn câu
+     và dòng ngày tháng. */
+  overflow-x: hidden;
+  overflow-y: auto;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   transition: background 1.2s var(--ease-soft);

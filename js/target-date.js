@@ -1,5 +1,5 @@
 /**
- * Tính mốc "28 tháng Chạp" và số ngày còn lại.
+ * Tính mốc "25 tháng Chạp" và số ngày còn lại.
  *
  * Nguyên tắc quan trọng nhất của file này:
  * KHÔNG đếm bằng mili-giây. Chỉ đếm bằng NGÀY LỊCH theo giờ Việt Nam.
@@ -10,20 +10,28 @@
  * của ngày ở Việt Nam thì kết quả luôn là số nguyên và luôn giống nhau.
  */
 
-import { TIMEZONE_VN, jdFromDate, lunarToSolar, solarToLunar } from './lunar.js?v=015067cd';
+import { TIMEZONE_VN, jdFromDate, lunarToSolar, solarToLunar } from './lunar.js?v=c8499b3c';
 
-/** Ngày âm lịch mục tiêu: 28 tháng Chạp - ngày anh về tới nhà. */
-export const TARGET_LUNAR_DAY = 28;
+/**
+ * Ngày âm lịch mục tiêu: 25 tháng Chạp - ngày anh về tới nhà.
+ *
+ * Đổi mốc thì sửa đúng một chỗ này. Dòng "Ngày về" trên trang và chữ trên màn
+ * hình ngày về đều lấy theo hai số dưới đây, không ai gõ cứng lại.
+ */
+export const TARGET_LUNAR_DAY = 25;
 export const TARGET_LUNAR_MONTH = 12;
 
 /** Múi giờ Việt Nam dạng chuỗi IANA. */
 const VN_TIME_ZONE = 'Asia/Ho_Chi_Minh';
 
 /**
- * Sau ngày về, trang vẫn giữ màn hình chúc mừng thêm ngần này ngày
- * (hết mùng 5 Tết) rồi mới bắt đầu đếm ngược cho lần gặp năm sau.
+ * Sau ngày về, trang vẫn giữ màn hình chúc mừng thêm ngần này ngày rồi mới
+ * bắt đầu đếm ngược cho lần gặp năm sau.
+ *
+ * Mười ngày tính từ 25 tháng Chạp là qua mùng 5 Tết - đủ để màn hình ngày về
+ * ở lại suốt mấy hôm Tết chứ không tắt ngay lúc còn đang vui.
  */
-export const GRACE_DAYS = 7;
+export const GRACE_DAYS = 10;
 
 /** Số mili-giây trong một ngày. */
 const MS_PER_DAY = 86400000;
@@ -88,9 +96,9 @@ export function parseDateString(value) {
 }
 
 /**
- * Tìm ngày 28 tháng Chạp sắp tới tính từ một ngày dương lịch cho trước.
+ * Tìm ngày 25 tháng Chạp sắp tới tính từ một ngày dương lịch cho trước.
  *
- * Nếu 28 tháng Chạp của năm âm lịch hiện tại đã trôi qua (quá thời gian ân hạn)
+ * Nếu 25 tháng Chạp của năm âm lịch hiện tại đã trôi qua (quá thời gian ân hạn)
  * thì tự động nhảy sang Tết năm sau - trang không bao giờ bị "hết hạn".
  *
  * @param {{ day: number, month: number, year: number }} today Ngày hôm nay (dương lịch, giờ VN)

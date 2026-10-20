@@ -1,6 +1,6 @@
 # Đếm ngược ngày mình gặp nhau
 
-Một trang web đếm ngược tới **28 tháng Chạp** — ngày anh về Việt Nam ăn Tết với em.
+Một trang web đếm ngược tới **25 tháng Chạp** — ngày anh về Việt Nam ăn Tết với em.
 
 **Trang đang chạy tại: https://nqa14112004.github.io/dem-ngay-gap-nhau/**
 
@@ -8,7 +8,7 @@ Mỗi ngày trôi qua con số bớt đi 1, tới đúng ngày về thì chạm 
 khác nhau, mỗi tuần một khung cảnh khác nhau, và mỗi buổi trong ngày một bầu trời
 khác nhau.
 
-- Mốc hiện tại: **28 tháng Chạp năm Bính Ngọ = 04/02/2027** (trang tự tính, không gõ cứng)
+- Mốc hiện tại: **25 tháng Chạp năm Bính Ngọ = 01/02/2027** (trang tự tính, không gõ cứng)
 - Không cần cài gì, không có thư viện ngoài, không cần build
 - Chạy được cả trên điện thoại lẫn máy tính
 
@@ -22,7 +22,7 @@ Mở file `js/config.js` và sửa bốn chỗ:
 |---|---|
 | `tenEm` | Tên hoặc biệt danh bạn gọi người yêu |
 | `tenAnh` | Tên bạn (dùng để ký cuối bức thư) |
-| `thuNgo` | Lời nhắn hiện ra đúng ngày về |
+| `thuNgo` | Lời nhắn hiện ra đúng ngày về (viết `{em}` là trang tự thay tên) |
 | `fileNhac` | Tên file nhạc, nếu muốn có nhạc nền |
 
 Lưu lại là xong, không cần làm gì thêm.
@@ -52,8 +52,8 @@ trước cảnh Tết hay màn hình ngày về mà không phải chỉnh đồn
 | `http://localhost:4321/` | Hôm nay thật |
 | `http://localhost:4321/?ngay=2026-12-20` | Cảnh mùa đông |
 | `http://localhost:4321/?ngay=2027-01-20` | Chế độ Tết, còn 15 ngày |
-| `http://localhost:4321/?ngay=2027-02-03` | Còn đúng 1 ngày |
-| `http://localhost:4321/?ngay=2027-02-04` | Ngày về: pháo hoa và bức thư |
+| `http://localhost:4321/?ngay=2027-01-31` | Còn đúng 1 ngày |
+| `http://localhost:4321/?ngay=2027-02-01` | Ngày về: pháo hoa và bức thư |
 
 Thêm `&buoi=` để xem thử một buổi cụ thể, khỏi phải ngồi chờ tới giờ đó:
 
@@ -180,10 +180,10 @@ tools/
 js/
   config.js             ⚠ File duy nhất bạn cần sửa
   lunar.js              Đổi âm lịch ↔ dương lịch (thuật toán Hồ Ngọc Đức)
-  target-date.js        Tìm mốc 28 tháng Chạp, đếm ngày theo giờ Việt Nam
+  target-date.js        Tìm mốc 25 tháng Chạp, đếm ngày theo giờ Việt Nam
   daypart.js            Xác định buổi trong ngày theo giờ máy người xem
   format.js             Định dạng ngày tháng kiểu Việt
-  messages.js           152 câu, chia 4 giai đoạn
+  messages.js           142 câu, chia 4 giai đoạn
   message-picker.js     Chọn câu cố định theo ngày
   music.js              Nhạc nền ngũ cung tự sinh bằng Web Audio
   scene.js              Ghép mùa + tuần + buổi thành một cảnh
@@ -202,8 +202,16 @@ tests/                  Kiểm thử, chạy bằng node --test
 - **Hai người ở hai múi giờ vẫn thấy cùng một con số.** Trang quy mọi phép tính
   về ngày lịch ở Việt Nam chứ không lấy hiệu thời gian chia cho 24 giờ.
 - **Câu cố định theo ngày.** Mở lại trang mười lần trong ngày vẫn thấy đúng câu
-  đó; sang ngày mới mới đổi câu. Giọng viết là kiểu nói ít, không hoa mỹ — tình
-  cảm nằm ở chi tiết cụ thể chứ không nằm ở tính từ.
+  đó; sang ngày mới mới đổi câu. Giọng viết là anh nói với em, như nhắn tin chứ
+  không như trích dẫn — tình cảm nằm ở chi tiết cụ thể chứ không nằm ở tính từ.
+- **Câu đi theo mùa.** Vì mốc là 25 tháng Chạp nên nhóm 31–90 ngày luôn rơi vào
+  quãng trời rét cuối năm, nhóm 8–30 ngày luôn rơi vào quãng trước Tết. Câu viết
+  bám đúng quãng đó.
+- **Câu không khai chuyện cụ thể.** Câu nằm sẵn trong kho từ trước, không ai biết
+  hôm đó thật sự xảy ra chuyện gì — nên không câu nào nói "anh đặt được vé rồi"
+  hay "trời hôm nay đẹp lắm". Chỉ nói về cảm giác, thói quen, lời hứa và lời dặn,
+  thế thì hôm nào đọc cũng đúng. Riêng số ngày thì nói thẳng được, vì bảy câu
+  cuối khớp cứng với bảy ngày cuối.
 - **Trang tự đổi màu khi sang buổi mới.** Mở từ chiều tới tối mà không đóng thì
   bầu trời tự chuyển, không cần tải lại.
 - **Về 0 rồi vẫn ở lại một tuần.** Hết mùng 5 Tết trang mới bắt đầu đếm cho lần

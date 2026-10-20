@@ -6,7 +6,7 @@
  * đổi câu mới.
  */
 
-import { MESSAGES } from './messages.js?v=015067cd';
+import { CAU_NGAY_VE, MESSAGES } from './messages.js?v=c8499b3c';
 
 /** Ngưỡng chia nhóm theo số ngày còn lại. */
 export const THRESHOLDS = { giua: 90, gan: 30, cuoi: 7 };
@@ -53,6 +53,12 @@ export function fillNames(text, names = {}) {
  * @returns {string} Câu đã thay tên
  */
 export function pickMessage({ daysRemaining, dayNumber, names }) {
+  // Đúng ngày về thì màn hình thư che lên trên, nhưng phần chữ nền vẫn phải
+  // đúng nghĩa: thư hiện dần mất một hai giây, đủ để người đọc kịp nhìn thấy.
+  if (daysRemaining <= 0) {
+    return fillNames(CAU_NGAY_VE, names);
+  }
+
   const group = pickGroup(daysRemaining);
   const list = MESSAGES[group];
 

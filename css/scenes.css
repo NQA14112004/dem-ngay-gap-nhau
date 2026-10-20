@@ -187,8 +187,9 @@
 [data-buoi='sang'],
 [data-buoi='trua'] {
   --ink: #241d14;
-  --ink-soft: rgba(36, 29, 20, 0.8);
-  --ink-faint: rgba(36, 29, 20, 0.56);
+  --ink-soft: rgba(36, 29, 20, 0.84);
+  /* Nền ban ngày sáng, chữ mờ quá thì dòng ngày tháng gần như đọc không ra. */
+  --ink-faint: rgba(36, 29, 20, 0.66);
   --shadow-text: 0 1px 16px rgba(255, 255, 255, 0.6);
   --scrim: rgba(255, 255, 255, 0.38);
   --vignette: rgba(52, 44, 32, 0.16);

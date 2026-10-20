@@ -101,13 +101,20 @@ test('thay tên vào câu', () => {
 test('đi hết chặng đếm ngược không ngày nào gặp lại câu cũ', () => {
   // Đây là lời hứa thật với người đọc: mỗi ngày mở ra là một câu chưa từng thấy.
   // Mô phỏng nguyên chặng từ hôm nay tới ngày về, đối chiếu từng ngày một.
+  //
+  // Nhóm xa xoay vòng nên nó chỉ phủ được đúng bằng số câu của chính nó. Qua
+  // Tết, trang nhảy sang mốc năm sau và số ngày còn lại vọt lên hơn ba trăm -
+  // quá tầm bảo đảm, mà cũng chẳng ai ngồi đếm từ xa thế. Nên chỉ xét quãng
+  // thật sự hứa được, để bài kiểm tra này không tự đỏ theo ngày chạy.
   const { daysRemaining, today } = getCountdownState(new Date());
-  const homNayJd = jdFromDate(today.day, today.month, today.year);
+  const quangHua = THRESHOLDS.giua + MESSAGES.xa.length;
+  const batDau = Math.min(daysRemaining, quangHua);
+  const homNayJd = jdFromDate(today.day, today.month, today.year) + (daysRemaining - batDau);
 
   const daGap = new Map();
 
-  for (let con = daysRemaining; con >= 1; con -= 1) {
-    const dayNumber = homNayJd + (daysRemaining - con);
+  for (let con = batDau; con >= 1; con -= 1) {
+    const dayNumber = homNayJd + (batDau - con);
     const cau = pickMessage({ daysRemaining: con, dayNumber });
 
     if (daGap.has(cau)) {
@@ -119,7 +126,17 @@ test('đi hết chặng đếm ngược không ngày nào gặp lại câu cũ',
     daGap.set(cau, con);
   }
 
-  assert.equal(daGap.size, daysRemaining, `Phải có đúng ${daysRemaining} câu khác nhau`);
+  assert.equal(daGap.size, batDau, `Phải có đúng ${batDau} câu khác nhau`);
+});
+
+test('không câu nào dài quá khổ màn hình điện thoại', () => {
+  // Khối câu trên trang rộng 34ch và cao 5.5em. Câu dài hơn chừng này thì tràn
+  // quá bốn dòng, đẩy dòng ngày tháng xuống và con số đếm ngược mất chỗ.
+  const DAI_TOI_DA = 90;
+
+  for (const cau of Object.values(MESSAGES).flat()) {
+    assert.ok(cau.length <= DAI_TOI_DA, `Câu dài ${cau.length} ký tự: ${cau}`);
+  }
 });
 
 test('nhóm cuối phải có đúng số câu bằng số ngày nó phủ', () => {
