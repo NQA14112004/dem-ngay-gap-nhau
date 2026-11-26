@@ -121,128 +121,6 @@
   opacity: 0;
 }
 
-/* --- Lời chúc tự nhập trong ngày --- */
-
-.daily-wish {
-  width: min(34rem, 100%);
-  display: grid;
-  gap: 0.55rem;
-  padding: 0.9rem;
-  text-align: left;
-  color: var(--ink);
-  background: color-mix(in srgb, var(--scrim) 78%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ink) 22%, transparent);
-  border-radius: 0.9rem;
-  backdrop-filter: blur(8px);
-}
-
-.daily-wish__label,
-.daily-wish__status {
-  font-size: 0.78rem;
-  letter-spacing: 0.04em;
-}
-
-.daily-wish__label {
-  color: var(--ink-soft);
-}
-
-.daily-wish__input,
-.daily-wish__key {
-  width: 100%;
-  padding: 0.65rem 0.75rem;
-  font: inherit;
-  font-size: 0.88rem;
-  line-height: 1.45;
-  color: var(--ink);
-  background: color-mix(in srgb, var(--vignette-strong) 55%, transparent);
-  border: 1px solid color-mix(in srgb, var(--ink) 25%, transparent);
-  border-radius: 0.55rem;
-}
-
-.daily-wish__input {
-  resize: vertical;
-}
-
-.daily-wish__input::placeholder,
-.daily-wish__key::placeholder {
-  color: var(--ink-faint);
-}
-
-.daily-wish__input:focus,
-.daily-wish__key:focus {
-  outline: 2px solid var(--so);
-  outline-offset: 2px;
-}
-
-.daily-wish__save-row {
-  display: flex;
-  gap: 0.55rem;
-}
-
-.daily-wish__save {
-  flex: 0 0 auto;
-  padding: 0.65rem 0.8rem;
-  font-size: 0.84rem;
-  font-weight: 500;
-  color: var(--vignette-strong);
-  background: var(--so);
-  border-radius: 0.55rem;
-}
-
-.daily-wish__save:hover {
-  filter: brightness(1.08);
-}
-
-.daily-wish__status {
-  min-height: 1.2em;
-  color: var(--ink-faint);
-}
-
-.daily-wish__status[data-state='error'] {
-  color: var(--so);
-}
-
-.daily-wish-keybox {
-  position: fixed;
-  inset: 0;
-  width: min(28rem, calc(100% - 2rem));
-  height: fit-content;
-  margin: auto;
-  padding: 0;
-  color: var(--ink);
-  background: color-mix(in srgb, var(--sky-mid) 92%, #000);
-  border: 1px solid color-mix(in srgb, var(--ink) 28%, transparent);
-  border-radius: 1rem;
-  box-shadow: 0 1.5rem 5rem rgba(0, 0, 0, 0.5);
-}
-
-.daily-wish-keybox::backdrop {
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(3px);
-}
-
-.daily-wish-keybox__form {
-  display: grid;
-  gap: 0.7rem;
-  padding: 1.15rem;
-}
-
-.daily-wish-keybox__title {
-  font-family: var(--font-display);
-  font-size: 1.35rem;
-}
-
-.daily-wish-keybox__actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 0.6rem;
-}
-
-.daily-wish-keybox__cancel {
-  padding: 0.65rem 0.8rem;
-  color: var(--ink-soft);
-}
-
 /* --- Dòng ngày tháng --- */
 
 .dates {
@@ -441,10 +319,6 @@
     line-height: 1.5;
   }
 
-  .daily-wish {
-    padding: 0.65rem;
-  }
-
   .counter {
     gap: 0.1rem;
   }
@@ -467,10 +341,6 @@
 
   .message {
     max-width: 42ch;
-  }
-
-  .daily-wish {
-    width: min(38rem, 100%);
   }
 
   .dates__line {

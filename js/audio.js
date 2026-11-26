@@ -11,7 +11,7 @@
  * Với người xem thì gần như không khác gì tự phát.
  */
 
-import { createMusic } from './music.js?v=50719289';
+import { createMusic } from './music.js?v=6af3d45b';
 
 /** Khoá lưu trạng thái bật/tắt. */
 const STATE_KEY = 'dem-ngay-gap-nhau:nhac';

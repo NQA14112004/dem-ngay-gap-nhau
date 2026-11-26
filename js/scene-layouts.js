@@ -22,7 +22,7 @@ import {
   terraces,
   warmHouse,
   water,
-} from './scene-art.js?v=50719289';
+} from './scene-art.js?v=6af3d45b';
 
 /**
  * Danh sách bố cục theo mùa.

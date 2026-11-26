@@ -367,8 +367,9 @@ export const CAU_NGAY_VE = 'Hết đếm rồi, {em} ạ.';
 /**
  * Câu nhắn cố định theo số ngày còn lại.
  *
- * Mỗi mục bên dưới là câu của đúng một ngày. Chỉ cần sửa câu ngay dưới
- * comment có số ngày tương ứng. Nếu muốn thêm ngày mới, dùng mẫu sau:
+ * Mỗi mục bên dưới là câu của đúng một ngày. Chỉ sửa phần chữ ngay dưới
+ * comment có số ngày tương ứng; không đổi số ở bên trái, để các câu luôn
+ * giữ đúng vị trí ngày của chúng. Nếu muốn thêm ngày mới, dùng mẫu sau:
  *
  * // Còn 12 ngày
  * 12: 'Câu nhắn bạn muốn hiện khi đồng hồ còn 12 ngày.',
@@ -577,7 +578,7 @@ export const MESSAGES_BY_DAYS_REMAINING = {
   66: "Em muốn gì cứ nói thẳng. Anh thích thế hơn là phải đoán.",
 
   // Còn 67 ngày
-  67: "Cuối năm nhìn ai cũng vội. Mình thì chỉ chờ đúng một ngày.",
+  67: "Thật buồn khi mất đi một người mà mình yêu thương nhỉ.",
 
   // Còn 68 ngày
   68: "Anh nhớ em cả lúc đang bận. Anh cũng chẳng hiểu kiểu gì.",

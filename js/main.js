@@ -6,16 +6,15 @@
  * chỉnh đồng hồ máy.
  */
 
-import { config } from './config.js?v=50719289';
-import { getDaypart, parseDaypart } from './daypart.js?v=50719289';
-import { renderCountdown, startTicking } from './countdown.js?v=50719289';
-import { showFinale } from './finale.js?v=50719289';
-import { jdFromDate } from './lunar.js?v=50719289';
-import { startParticles } from './particles.js?v=50719289';
-import { applyScene, computeViewBox, pickScene } from './scene.js?v=50719289';
-import { setupAudio } from './audio.js?v=50719289';
-import { setupDailyWish } from './daily-wish.js?v=50719289';
-import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=50719289';
+import { config } from './config.js?v=6af3d45b';
+import { getDaypart, parseDaypart } from './daypart.js?v=6af3d45b';
+import { renderCountdown, startTicking } from './countdown.js?v=6af3d45b';
+import { showFinale } from './finale.js?v=6af3d45b';
+import { jdFromDate } from './lunar.js?v=6af3d45b';
+import { startParticles } from './particles.js?v=6af3d45b';
+import { applyScene, computeViewBox, pickScene } from './scene.js?v=6af3d45b';
+import { setupAudio } from './audio.js?v=6af3d45b';
+import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=6af3d45b';
 
 /** Tra sẵn các phần tử DOM dùng nhiều lần. */
 const el = {
@@ -24,14 +23,6 @@ const el = {
   days: document.getElementById('days'),
   unit: document.getElementById('unit'),
   message: document.getElementById('message'),
-  dailyWishForm: document.getElementById('daily-wish-form'),
-  dailyWishInput: document.getElementById('daily-wish-input'),
-  dailyWishKeybox: document.getElementById('daily-wish-keybox'),
-  dailyWishKeyForm: document.getElementById('daily-wish-key-form'),
-  dailyWishKey: document.getElementById('daily-wish-key'),
-  dailyWishKeyStatus: document.getElementById('daily-wish-key-status'),
-  dailyWishKeyCancel: document.getElementById('daily-wish-key-cancel'),
-  dailyWishStatus: document.getElementById('daily-wish-status'),
   todayLine: document.getElementById('today-line'),
   targetLine: document.getElementById('target-line'),
   tick: document.getElementById('tick'),
@@ -58,7 +49,7 @@ const targetOverride = parseDateString(config.overrideTargetDate);
 const forcedDaypart = parseDaypart(new URLSearchParams(window.location.search).get('buoi'));
 
 /** Các hiệu ứng đang chạy, cần dọn trước khi vẽ lại. */
-let running = { particles: null, ticker: null, finale: null, dailyWish: null };
+let running = { particles: null, ticker: null, finale: null };
 
 /** Hẹn giờ vẽ lại sau khi xoay máy hoặc đổi kích thước cửa sổ. */
 let resizeTimer = null;
@@ -86,8 +77,7 @@ function teardown() {
   running.particles?.stop();
   running.ticker?.stop();
   running.finale?.stop();
-  running.dailyWish?.destroy();
-  running = { particles: null, ticker: null, finale: null, dailyWish: null };
+  running = { particles: null, ticker: null, finale: null };
 }
 
 /** Dựng lại toàn bộ màn hình theo ngày hiện tại. */
@@ -119,18 +109,6 @@ function draw() {
   });
 
   renderCountdown(el, state, config);
-  running.dailyWish = setupDailyWish({
-    form: el.dailyWishForm,
-    input: el.dailyWishInput,
-    status: el.dailyWishStatus,
-    messageNode: el.message,
-    today,
-    keyDialog: el.dailyWishKeybox,
-    keyForm: el.dailyWishKeyForm,
-    keyInput: el.dailyWishKey,
-    keyStatus: el.dailyWishKeyStatus,
-    keyCancel: el.dailyWishKeyCancel,
-  });
 
   // Tiêu đề tab đếm theo luôn, để liếc lên thanh tab là biết còn mấy ngày.
   document.title =

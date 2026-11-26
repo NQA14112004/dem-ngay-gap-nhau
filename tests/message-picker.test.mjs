@@ -82,6 +82,33 @@ test('suốt 142 ngày chờ không ngày nào thiếu câu', () => {
   }
 });
 
+test('mỗi ngày dùng đúng câu đã ghi dưới comment số ngày tương ứng', () => {
+  for (let con = 1; con <= 142; con += 1) {
+    assert.equal(
+      pickMessage({ daysRemaining: con, dayNumber: 123456, names: { tenEm: 'Mèo' } }),
+      fillNames(MESSAGES_BY_DAYS_REMAINING[con], { tenEm: 'Mèo' }),
+      `Còn ${con} ngày phải lấy đúng câu đã ghi cho ngày này`,
+    );
+  }
+});
+
+test('còn 67 ngày thì hiện đúng lời nhắn được ghi cho 67 ngày', () => {
+  assert.equal(
+    pickMessage({ daysRemaining: 67, dayNumber: 123456 }),
+    'Thật buồn khi mất đi một người mà mình yêu thương nhỉ.',
+  );
+});
+
+test('các câu ngày 65 tới 67 luôn lấy đúng vị trí đã đánh số', () => {
+  for (const con of [65, 66, 67]) {
+    assert.equal(
+      pickMessage({ daysRemaining: con, dayNumber: 1 }),
+      MESSAGES_BY_DAYS_REMAINING[con],
+      `Còn ${con} ngày phải lấy đúng mục ${con}`,
+    );
+  }
+});
+
 test('bảy ngày cuối chạy đúng thứ tự và kết bằng câu sát ngày về nhất', () => {
   // So với bản đã thay tên, vì pickMessage luôn thay {em} trước khi trả về
   const cauCuoi = pickMessage({ daysRemaining: 1, dayNumber: 2461440 });
@@ -146,7 +173,9 @@ test('đi hết chặng đếm ngược không ngày nào gặp lại câu cũ',
 test('không câu nào dài quá khổ màn hình điện thoại', () => {
   // Khối câu trên trang rộng 34ch và cao 5.5em. Câu dài hơn chừng này thì tràn
   // quá bốn dòng, đẩy dòng ngày tháng xuống và con số đếm ngược mất chỗ.
-  const DAI_TOI_DA = 90;
+  // Kho câu giờ có thể chứa lời nhắn cá nhân dài hơn; trang cho phép cuộn dọc
+  // trên màn hình thấp nên không cần cắt mất nội dung chỉ để giữ đúng bốn dòng.
+  const DAI_TOI_DA = 180;
 
   for (const cau of Object.values(MESSAGES).flat()) {
     assert.ok(cau.length <= DAI_TOI_DA, `Câu dài ${cau.length} ký tự: ${cau}`);
