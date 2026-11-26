@@ -53,24 +53,43 @@ export function saveDailyWish(storage, today, message, key) {
   }
 }
 
-/** Gắn biểu mẫu nhập lời chúc và hộp xác nhận key vào trang. */
+/** Gắn biểu mẫu nhập lời chúc, hộp xác nhận key và lá thư vào trang. */
 export function setupDailyWish({
   form, input, status, messageNode, today,
   keyDialog, keyForm, keyInput, keyStatus, keyCancel,
+  letterButton, letterDialog, letterContent, letterDate, letterSign, letterClose, authorName,
   storage = window.localStorage,
 }) {
+  const dayLabel = `Ngày ${String(today.day).padStart(2, '0')}/${String(today.month).padStart(2, '0')}/${today.year}`;
+
   const renderSavedWish = (message) => {
-    messageNode.textContent = message;
+    messageNode.textContent = 'Anh có vài dòng gửi gắm cho em.';
     form.hidden = true;
+    letterButton.hidden = false;
+    letterContent.textContent = message;
+    letterDate.textContent = dayLabel;
+    letterSign.textContent = authorName ? `— ${authorName}` : '';
   };
+
+  const onLetterOpen = () => letterDialog.showModal();
+  const onLetterClose = () => letterDialog.close();
+  letterButton.addEventListener('click', onLetterOpen);
+  letterClose.addEventListener('click', onLetterClose);
 
   const saved = readDailyWish(storage, today);
   if (saved) {
     renderSavedWish(saved);
-    return { destroy() {} };
+    return {
+      destroy() {
+        if (letterDialog.open) letterDialog.close();
+        letterButton.removeEventListener('click', onLetterOpen);
+        letterClose.removeEventListener('click', onLetterClose);
+      },
+    };
   }
 
   form.hidden = false;
+  letterButton.hidden = true;
   status.textContent = 'Mỗi ngày chỉ lưu được một lần.';
   status.dataset.state = 'hint';
 
@@ -129,10 +148,15 @@ export function setupDailyWish({
       if (keyDialog.open) {
         keyDialog.close();
       }
+      if (letterDialog.open) {
+        letterDialog.close();
+      }
       form.removeEventListener('submit', onWishSubmit);
       keyForm.removeEventListener('submit', onKeySubmit);
       keyCancel.removeEventListener('click', onKeyCancel);
       keyDialog.removeEventListener('close', onDialogClose);
+      letterButton.removeEventListener('click', onLetterOpen);
+      letterClose.removeEventListener('click', onLetterClose);
     },
   };
 }

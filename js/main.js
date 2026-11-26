@@ -6,16 +6,16 @@
  * chỉnh đồng hồ máy.
  */
 
-import { config } from './config.js?v=ba555257';
-import { getDaypart, parseDaypart } from './daypart.js?v=ba555257';
-import { renderCountdown, startTicking } from './countdown.js?v=ba555257';
-import { showFinale } from './finale.js?v=ba555257';
-import { jdFromDate } from './lunar.js?v=ba555257';
-import { startParticles } from './particles.js?v=ba555257';
-import { applyScene, computeViewBox, pickScene } from './scene.js?v=ba555257';
-import { setupAudio } from './audio.js?v=ba555257';
-import { setupDailyWish } from './daily-wish.js?v=ba555257';
-import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=ba555257';
+import { config } from './config.js?v=68fe0d9d';
+import { getDaypart, parseDaypart } from './daypart.js?v=68fe0d9d';
+import { renderCountdown, startTicking } from './countdown.js?v=68fe0d9d';
+import { showFinale } from './finale.js?v=68fe0d9d';
+import { jdFromDate } from './lunar.js?v=68fe0d9d';
+import { startParticles } from './particles.js?v=68fe0d9d';
+import { applyScene, computeViewBox, pickScene } from './scene.js?v=68fe0d9d';
+import { setupAudio } from './audio.js?v=68fe0d9d';
+import { setupDailyWish } from './daily-wish.js?v=68fe0d9d';
+import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=68fe0d9d';
 
 /** Tra sẵn các phần tử DOM dùng nhiều lần. */
 const el = {
@@ -32,6 +32,12 @@ const el = {
   dailyWishKeyStatus: document.getElementById('daily-wish-key-status'),
   dailyWishKeyCancel: document.getElementById('daily-wish-key-cancel'),
   dailyWishStatus: document.getElementById('daily-wish-status'),
+  dailyLetterButton: document.getElementById('daily-letter-button'),
+  dailyLetterDialog: document.getElementById('daily-letter-dialog'),
+  dailyLetterContent: document.getElementById('daily-letter-content'),
+  dailyLetterDate: document.getElementById('daily-letter-date'),
+  dailyLetterSign: document.getElementById('daily-letter-sign'),
+  dailyLetterClose: document.getElementById('daily-letter-close'),
   todayLine: document.getElementById('today-line'),
   targetLine: document.getElementById('target-line'),
   tick: document.getElementById('tick'),
@@ -130,6 +136,13 @@ function draw() {
     keyInput: el.dailyWishKey,
     keyStatus: el.dailyWishKeyStatus,
     keyCancel: el.dailyWishKeyCancel,
+    letterButton: el.dailyLetterButton,
+    letterDialog: el.dailyLetterDialog,
+    letterContent: el.dailyLetterContent,
+    letterDate: el.dailyLetterDate,
+    letterSign: el.dailyLetterSign,
+    letterClose: el.dailyLetterClose,
+    authorName: config.tenAnh,
   });
 
   // Tiêu đề tab đếm theo luôn, để liếc lên thanh tab là biết còn mấy ngày.

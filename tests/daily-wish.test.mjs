@@ -36,3 +36,13 @@ test('mỗi ngày chỉ được lưu một lần và phải có key đúng', ()
   assert.equal(saveDailyWish(storage, today, 'Lời chúc thứ hai', DAILY_WISH_SAVE_KEY).reason, 'already-saved');
   assert.equal(readDailyWish(storage, { day: 27, month: 11, year: 2026 }), null);
 });
+
+test('lời nhắn dài và có xuống dòng được giữ nguyên khi lưu', () => {
+  const storage = makeStorage();
+  const today = { day: 26, month: 11, year: 2026 };
+  const message = `Gửi em,\n\n${'Anh nhớ em. '.repeat(280)}`;
+
+  assert.ok(message.length > 3000);
+  assert.equal(saveDailyWish(storage, today, message, DAILY_WISH_SAVE_KEY).ok, true);
+  assert.equal(readDailyWish(storage, today), message.trim());
+});

@@ -23,11 +23,11 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/base.css?v=ba555257" />
-  <link rel="stylesheet" href="css/layout.css?v=ba555257" />
-  <link rel="stylesheet" href="css/scenes.css?v=ba555257" />
-  <link rel="stylesheet" href="css/particles.css?v=ba555257" />
-  <link rel="stylesheet" href="css/finale.css?v=ba555257" />
+  <link rel="stylesheet" href="css/base.css?v=68fe0d9d" />
+  <link rel="stylesheet" href="css/layout.css?v=68fe0d9d" />
+  <link rel="stylesheet" href="css/scenes.css?v=68fe0d9d" />
+  <link rel="stylesheet" href="css/particles.css?v=68fe0d9d" />
+  <link rel="stylesheet" href="css/finale.css?v=68fe0d9d" />
 </head>
 <body data-scene="thu" data-buoi="toi">
   <!-- Nền: trời, quầng sáng, tranh SVG theo mùa, hạt rơi -->
@@ -58,8 +58,8 @@
       <textarea
         class="daily-wish__input"
         id="daily-wish-input"
-        maxlength="280"
-        rows="3"
+        maxlength="4000"
+        rows="7"
         placeholder="Viết một lời chúc cho hôm nay…"
         required
       ></textarea>
@@ -68,6 +68,15 @@
       </div>
       <p class="daily-wish__status" id="daily-wish-status" aria-live="polite"></p>
     </form>
+
+    <button class="daily-letter" id="daily-letter-button" type="button" hidden>
+      <span class="daily-letter__seal" aria-hidden="true">✦</span>
+      <span class="daily-letter__copy">
+        <strong>Có một lá thư gửi em</strong>
+        <small>Chạm để mở thư</small>
+      </span>
+      <span class="daily-letter__arrow" aria-hidden="true">→</span>
+    </button>
 
     <section class="dates">
       <p class="dates__line" id="today-line">&nbsp;</p>
@@ -94,6 +103,16 @@
         <button class="daily-wish__save" type="submit">Xác nhận lưu</button>
       </div>
     </form>
+  </dialog>
+
+  <dialog class="daily-letter-dialog" id="daily-letter-dialog" aria-labelledby="daily-letter-heading">
+    <article class="daily-letter-paper">
+      <button class="daily-letter-paper__close" id="daily-letter-close" type="button" aria-label="Đóng thư">×</button>
+      <p class="daily-letter-paper__date" id="daily-letter-date"></p>
+      <h1 class="daily-letter-paper__heading" id="daily-letter-heading">Gửi em,</h1>
+      <p class="daily-letter-paper__content" id="daily-letter-content"></p>
+      <p class="daily-letter-paper__sign" id="daily-letter-sign"></p>
+    </article>
   </dialog>
 
   <!-- Trình phát nhạc: nút chạy/tạm dừng và thanh âm lượng -->
@@ -139,6 +158,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/main.js?v=ba555257"></script>
+  <script type="module" src="js/main.js?v=68fe0d9d"></script>
 k</body>
 </html>
