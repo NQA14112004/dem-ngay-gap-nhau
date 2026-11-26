@@ -5,14 +5,14 @@
  * các module riêng, do main.js điều phối.
  */
 
-import { formatDuration, formatLunarDate, formatSolarDate, formatWeekday } from './format.js?v=6af3d45b';
-import { jdFromDate } from './lunar.js?v=6af3d45b';
-import { fillNames, pickMessage } from './message-picker.js?v=6af3d45b';
+import { formatDuration, formatLunarDate, formatSolarDate, formatWeekday } from './format.js?v=ba555257';
+import { jdFromDate } from './lunar.js?v=ba555257';
+import { fillNames, pickMessage } from './message-picker.js?v=ba555257';
 import {
   TARGET_LUNAR_DAY,
   TARGET_LUNAR_MONTH,
   msUntilVietnamMidnight,
-} from './target-date.js?v=6af3d45b';
+} from './target-date.js?v=ba555257';
 
 /** Tên âm lịch của mốc, ví dụ "25 tháng Chạp". Lấy từ target-date, không gõ cứng. */
 const TEN_MOC = formatLunarDate({ day: TARGET_LUNAR_DAY, month: TARGET_LUNAR_MONTH });

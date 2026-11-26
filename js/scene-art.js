@@ -10,7 +10,7 @@
  * điện thoại dựng đứng mới không bị cắt mất mặt trăng hay lồng đèn.
  */
 
-import { between } from './rng.js?v=6af3d45b';
+import { between } from './rng.js?v=ba555257';
 
 /** Chiều cao cố định của hệ toạ độ. */
 export const ART_HEIGHT = 600;

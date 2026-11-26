@@ -23,11 +23,11 @@
     rel="stylesheet"
   />
 
-  <link rel="stylesheet" href="css/base.css?v=6af3d45b" />
-  <link rel="stylesheet" href="css/layout.css?v=6af3d45b" />
-  <link rel="stylesheet" href="css/scenes.css?v=6af3d45b" />
-  <link rel="stylesheet" href="css/particles.css?v=6af3d45b" />
-  <link rel="stylesheet" href="css/finale.css?v=6af3d45b" />
+  <link rel="stylesheet" href="css/base.css?v=ba555257" />
+  <link rel="stylesheet" href="css/layout.css?v=ba555257" />
+  <link rel="stylesheet" href="css/scenes.css?v=ba555257" />
+  <link rel="stylesheet" href="css/particles.css?v=ba555257" />
+  <link rel="stylesheet" href="css/finale.css?v=ba555257" />
 </head>
 <body data-scene="thu" data-buoi="toi">
   <!-- Nền: trời, quầng sáng, tranh SVG theo mùa, hạt rơi -->
@@ -53,6 +53,22 @@
       <p class="message__text" id="message">&nbsp;</p>
     </blockquote>
 
+    <form class="daily-wish" id="daily-wish-form" novalidate>
+      <label class="daily-wish__label" for="daily-wish-input">Lời chúc hôm nay</label>
+      <textarea
+        class="daily-wish__input"
+        id="daily-wish-input"
+        maxlength="280"
+        rows="3"
+        placeholder="Viết một lời chúc cho hôm nay…"
+        required
+      ></textarea>
+      <div class="daily-wish__save-row">
+        <button class="daily-wish__save" type="submit">Lưu lời chúc</button>
+      </div>
+      <p class="daily-wish__status" id="daily-wish-status" aria-live="polite"></p>
+    </form>
+
     <section class="dates">
       <p class="dates__line" id="today-line">&nbsp;</p>
       <p class="dates__line dates__line--target" id="target-line">&nbsp;</p>
@@ -60,6 +76,25 @@
 
     <p class="tick" id="tick">&nbsp;</p>
   </main>
+
+  <dialog class="daily-wish-keybox" id="daily-wish-keybox" aria-labelledby="daily-wish-keybox-title">
+    <form class="daily-wish-keybox__form" id="daily-wish-key-form" novalidate>
+      <p class="daily-wish-keybox__title" id="daily-wish-keybox-title">Xác nhận để lưu lời chúc</p>
+      <label class="daily-wish__label" for="daily-wish-key">Nhập key</label>
+      <input
+        class="daily-wish__key"
+        id="daily-wish-key"
+        type="password"
+        autocomplete="off"
+        placeholder="Nhập key để lưu"
+      />
+      <p class="daily-wish__status" id="daily-wish-key-status" aria-live="polite"></p>
+      <div class="daily-wish-keybox__actions">
+        <button class="daily-wish-keybox__cancel" id="daily-wish-key-cancel" type="button">Hủy</button>
+        <button class="daily-wish__save" type="submit">Xác nhận lưu</button>
+      </div>
+    </form>
+  </dialog>
 
   <!-- Trình phát nhạc: nút chạy/tạm dừng và thanh âm lượng -->
   <div class="player" id="player" hidden>
@@ -104,6 +139,6 @@
     </div>
   </div>
 
-  <script type="module" src="js/main.js?v=6af3d45b"></script>
+  <script type="module" src="js/main.js?v=ba555257"></script>
 k</body>
 </html>
