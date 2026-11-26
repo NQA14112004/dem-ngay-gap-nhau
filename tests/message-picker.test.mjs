@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 
-import { MESSAGES } from '../js/messages.js';
+import { MESSAGES, MESSAGES_BY_DAYS_REMAINING } from '../js/messages.js';
 import { THRESHOLDS, fillNames, pickGroup, pickMessage } from '../js/message-picker.js';
 import { getCountdownState } from '../js/target-date.js';
 import { jdFromDate } from '../js/lunar.js';
@@ -91,6 +91,20 @@ test('bảy ngày cuối chạy đúng thứ tự và kết bằng câu sát ng�
     pickMessage({ daysRemaining: con, dayNumber: 2461440 }),
   );
   assert.equal(new Set(cacCau).size, 7, 'Bảy ngày cuối không được lặp câu');
+});
+
+test('câu đặt riêng theo số ngày được ưu tiên và không phụ thuộc vào ngày mở trang', () => {
+  const con = 3;
+  const mongDoi = fillNames(MESSAGES_BY_DAYS_REMAINING[con], { tenEm: 'Mèo' });
+
+  assert.equal(
+    pickMessage({ daysRemaining: con, dayNumber: 1, names: { tenEm: 'Mèo' } }),
+    mongDoi,
+  );
+  assert.equal(
+    pickMessage({ daysRemaining: con, dayNumber: 999999, names: { tenEm: 'Mèo' } }),
+    mongDoi,
+  );
 });
 
 test('thay tên vào câu', () => {

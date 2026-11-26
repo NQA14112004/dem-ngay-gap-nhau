@@ -6,7 +6,7 @@
  * đổi câu mới.
  */
 
-import { CAU_NGAY_VE, MESSAGES } from './messages.js?v=c8499b3c';
+import { CAU_NGAY_VE, MESSAGES, MESSAGES_BY_DAYS_REMAINING } from './messages.js?v=50719289';
 
 /** Ngưỡng chia nhóm theo số ngày còn lại. */
 export const THRESHOLDS = { giua: 90, gan: 30, cuoi: 7 };
@@ -57,6 +57,14 @@ export function pickMessage({ daysRemaining, dayNumber, names }) {
   // đúng nghĩa: thư hiện dần mất một hai giây, đủ để người đọc kịp nhìn thấy.
   if (daysRemaining <= 0) {
     return fillNames(CAU_NGAY_VE, names);
+  }
+
+  // Câu được đặt riêng cho đúng số ngày này luôn được ưu tiên. Nhờ vậy,
+  // người viết chỉ cần sửa MESSAGES_BY_DAYS_REMAINING và không phải tính
+  // thứ tự trong các nhóm câu bên dưới.
+  const fixedMessage = MESSAGES_BY_DAYS_REMAINING[daysRemaining];
+  if (typeof fixedMessage === 'string' && fixedMessage.trim()) {
+    return fillNames(fixedMessage, names);
   }
 
   const group = pickGroup(daysRemaining);
