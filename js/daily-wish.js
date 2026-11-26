@@ -53,17 +53,39 @@ export function saveDailyWish(storage, today, message, key) {
   }
 }
 
+/** Kho lưu cục bộ, được dùng khi chưa điền cấu hình Supabase. */
+export function createLocalDailyWishStore(storage) {
+  return {
+    mode: 'local',
+    async read(today) {
+      return { ok: true, message: readDailyWish(storage, today) };
+    },
+    async save(today, message, key) {
+      return saveDailyWish(storage, today, message, key);
+    },
+  };
+}
+
 /** Gắn biểu mẫu nhập lời chúc, hộp xác nhận key và lá thư vào trang. */
 export function setupDailyWish({
   form, input, status, messageNode, today,
   keyDialog, keyForm, keyInput, keyStatus, keyCancel,
   letterButton, letterDialog, letterContent, letterDate, letterSign, letterClose, authorName,
+  store = null,
   storage = window.localStorage,
 }) {
+  const wishStore = store ?? createLocalDailyWishStore(storage);
+  const saveButton = form.querySelector('button[type="submit"]');
+  let isReady = false;
+  let isDestroyed = false;
+
+  const setInputEnabled = (enabled) => {
+    input.disabled = !enabled;
+    saveButton.disabled = !enabled;
+  };
   const dayLabel = `Ngày ${String(today.day).padStart(2, '0')}/${String(today.month).padStart(2, '0')}/${today.year}`;
 
   const renderSavedWish = (message) => {
-    messageNode.textContent = 'Anh có vài dòng gửi gắm cho em.';
     form.hidden = true;
     letterButton.hidden = false;
     letterContent.textContent = message;
@@ -76,25 +98,39 @@ export function setupDailyWish({
   letterButton.addEventListener('click', onLetterOpen);
   letterClose.addEventListener('click', onLetterClose);
 
-  const saved = readDailyWish(storage, today);
-  if (saved) {
-    renderSavedWish(saved);
-    return {
-      destroy() {
-        if (letterDialog.open) letterDialog.close();
-        letterButton.removeEventListener('click', onLetterOpen);
-        letterClose.removeEventListener('click', onLetterClose);
-      },
-    };
-  }
-
   form.hidden = false;
   letterButton.hidden = true;
+  setInputEnabled(false);
   status.textContent = 'Mỗi ngày chỉ lưu được một lần.';
   status.dataset.state = 'hint';
 
+  const loadSavedWish = async () => {
+    const result = await wishStore.read(today);
+    if (isDestroyed) return;
+
+    if (!result.ok) {
+      status.textContent = 'Chưa thể kết nối Supabase. Hãy kiểm tra mạng và thử lại trang.';
+      status.dataset.state = 'error';
+      return;
+    }
+
+    if (result.message) {
+      renderSavedWish(result.message);
+      return;
+    }
+
+    isReady = true;
+    setInputEnabled(true);
+    status.textContent = wishStore.mode === 'local'
+      ? 'Mỗi ngày chỉ lưu được một lần. Hiện chưa bật đồng bộ Supabase.'
+      : 'Mỗi ngày chỉ lưu được một lần và sẽ đồng bộ trên mọi thiết bị.';
+    status.dataset.state = 'hint';
+  };
+
   const onWishSubmit = (event) => {
     event.preventDefault();
+
+    if (!isReady) return;
 
     if (!input.value.trim()) {
       status.textContent = 'Hãy nhập lời chúc trước khi lưu.';
@@ -110,10 +146,14 @@ export function setupDailyWish({
     keyInput.focus();
   };
 
-  const onKeySubmit = (event) => {
+  const onKeySubmit = async (event) => {
     event.preventDefault();
 
-    const result = saveDailyWish(storage, today, input.value, keyInput.value);
+    keyInput.disabled = true;
+    keyStatus.textContent = 'Đang lưu lời nhắn…';
+    keyStatus.dataset.state = 'hint';
+    const result = await wishStore.save(today, input.value, keyInput.value);
+    keyInput.disabled = false;
     if (result.ok) {
       keyDialog.close();
       renderSavedWish(result.message);
@@ -121,6 +161,7 @@ export function setupDailyWish({
     }
 
     const messages = {
+      network: 'Chưa thể lưu lên Supabase. Hãy kiểm tra mạng và thử lại.',
       key: 'Key chưa đúng, chưa thể lưu lời chúc.',
       empty: 'Hãy nhập lời chúc trước khi lưu.',
       'already-saved': 'Hôm nay đã có lời chúc được lưu rồi.',
@@ -143,8 +184,10 @@ export function setupDailyWish({
   keyForm.addEventListener('submit', onKeySubmit);
   keyCancel.addEventListener('click', onKeyCancel);
   keyDialog.addEventListener('close', onDialogClose);
+  loadSavedWish();
   return {
     destroy() {
+      isDestroyed = true;
       if (keyDialog.open) {
         keyDialog.close();
       }

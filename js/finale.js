@@ -5,10 +5,10 @@
  * (xem GRACE_DAYS trong target-date.js) chứ không biến mất ngay hôm sau.
  */
 
-import { formatLunarDate } from './format.js?v=68fe0d9d';
-import { fillNames } from './message-picker.js?v=68fe0d9d';
-import { between, createRandom } from './rng.js?v=68fe0d9d';
-import { TARGET_LUNAR_DAY, TARGET_LUNAR_MONTH } from './target-date.js?v=68fe0d9d';
+import { formatLunarDate } from './format.js?v=31d984ce';
+import { fillNames } from './message-picker.js?v=31d984ce';
+import { between, createRandom } from './rng.js?v=31d984ce';
+import { TARGET_LUNAR_DAY, TARGET_LUNAR_MONTH } from './target-date.js?v=31d984ce';
 
 /** Bảng màu pháo hoa: đỏ, vàng, hồng, trắng ngà - tông ngày Tết. */
 const COLORS = ['#ffd45e', '#ff6b6b', '#ffa64d', '#ffe9c4', '#ff8fb1'];

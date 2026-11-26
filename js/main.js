@@ -6,16 +6,17 @@
  * chỉnh đồng hồ máy.
  */
 
-import { config } from './config.js?v=68fe0d9d';
-import { getDaypart, parseDaypart } from './daypart.js?v=68fe0d9d';
-import { renderCountdown, startTicking } from './countdown.js?v=68fe0d9d';
-import { showFinale } from './finale.js?v=68fe0d9d';
-import { jdFromDate } from './lunar.js?v=68fe0d9d';
-import { startParticles } from './particles.js?v=68fe0d9d';
-import { applyScene, computeViewBox, pickScene } from './scene.js?v=68fe0d9d';
-import { setupAudio } from './audio.js?v=68fe0d9d';
-import { setupDailyWish } from './daily-wish.js?v=68fe0d9d';
-import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=68fe0d9d';
+import { config } from './config.js?v=31d984ce';
+import { getDaypart, parseDaypart } from './daypart.js?v=31d984ce';
+import { renderCountdown, startTicking } from './countdown.js?v=31d984ce';
+import { showFinale } from './finale.js?v=31d984ce';
+import { jdFromDate } from './lunar.js?v=31d984ce';
+import { startParticles } from './particles.js?v=31d984ce';
+import { applyScene, computeViewBox, pickScene } from './scene.js?v=31d984ce';
+import { setupAudio } from './audio.js?v=31d984ce';
+import { setupDailyWish } from './daily-wish.js?v=31d984ce';
+import { createSupabaseDailyWishStore } from './supabase.js?v=31d984ce';
+import { getCountdownState, getVietnamToday, parseDateString } from './target-date.js?v=31d984ce';
 
 /** Tra sẵn các phần tử DOM dùng nhiều lần. */
 const el = {
@@ -125,6 +126,7 @@ function draw() {
   });
 
   renderCountdown(el, state, config);
+  const supabaseStore = createSupabaseDailyWishStore(config.supabase);
   running.dailyWish = setupDailyWish({
     form: el.dailyWishForm,
     input: el.dailyWishInput,
@@ -143,6 +145,7 @@ function draw() {
     letterSign: el.dailyLetterSign,
     letterClose: el.dailyLetterClose,
     authorName: config.tenAnh,
+    store: supabaseStore.configured ? supabaseStore : null,
   });
 
   // Tiêu đề tab đếm theo luôn, để liếc lên thanh tab là biết còn mấy ngày.

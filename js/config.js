@@ -39,6 +39,19 @@ export const config = {
   fileNhac: 'assets/audio/nhac-nen.mp3',
 
   /**
+   * Đồng bộ lời nhắn bằng Supabase.
+   *
+   * Vào Supabase: Project Settings > API, rồi dán Project URL và Publishable key
+   * (hoặc anon public key) vào đây. Hai giá trị này được phép công khai trên web.
+   * Để trống thì trang vẫn chạy, nhưng chỉ lưu riêng trên từng thiết bị.
+   */
+  supabase: {
+    url: 'https://uteplewcphjmgmtureab.supabase.co',
+    publishableKey: 'sb_publishable_Vmgs40M2M2fqFYWU5Ea5LA_qL8ui7GN',
+    writerEmail: 'khaindsc@gmail.com',
+  },
+
+  /**
    * Bình thường trang tự tính ngày 25 tháng Chạp sắp tới.
    * Nếu ngày bay thật của bạn khác, điền vào đây dạng 'YYYY-MM-DD'.
    * Ví dụ: overrideTargetDate: '2027-02-01'

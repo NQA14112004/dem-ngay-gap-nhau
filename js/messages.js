@@ -572,10 +572,10 @@ export const MESSAGES_BY_DAYS_REMAINING = {
   64: "Em kể hôm nay em làm gì đi. Anh nghe không chán đâu.",
 
   // Còn 65 ngày
-  65: "Anh đang cố cho xong việc. Xong là anh về.",
+  65: "Hôm nay lại phải đi làm gòi mệt nhỉ khum biết em bé ổn hơn chưa.",
 
   // Còn 66 ngày
-  66: "Em muốn gì cứ nói thẳng. Anh thích thế hơn là phải đoán.",
+  66: "Vậy là phải tạm biệt ông rồi, hành trình tiễn đưa một người mà mình thương yêu thật khó khăn. Nhưng anh tin ông vẫn dõi theo và phù hộ cho hành trình của em.",
 
   // Còn 67 ngày
   67: "Thật buồn khi mất đi một người mà mình yêu thương nhỉ.",

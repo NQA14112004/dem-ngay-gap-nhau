@@ -6,7 +6,7 @@
  * đổi câu mới.
  */
 
-import { CAU_NGAY_VE, MESSAGES, MESSAGES_BY_DAYS_REMAINING } from './messages.js?v=68fe0d9d';
+import { CAU_NGAY_VE, MESSAGES, MESSAGES_BY_DAYS_REMAINING } from './messages.js?v=31d984ce';
 
 /** Ngưỡng chia nhóm theo số ngày còn lại. */
 export const THRESHOLDS = { giua: 90, gan: 30, cuoi: 7 };
